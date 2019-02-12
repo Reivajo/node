@@ -7,6 +7,7 @@
 int main(){
   Node *n1;
   Node *n2;
+  FILE *f=NULL;
   n1=node_ini();
   n2=node_ini();
   node_setId(n1,111);
