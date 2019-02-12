@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stderror.h>
+#include <errno.h>
 #include <string.h>
 #include "types.h"
 #include "node.h"
@@ -7,12 +7,12 @@
 int main(){
   Node *n1;
   Node *n2;
-  n1=Node * node_ini();
-  n2=Node * node_ini();
-  node_setId(Node * n1, const int 111);
-  node_setName(Node * n1, const char* "first");
-  node_setId(Node * n2, const int 222);
-  node_setName(Node * n2, const char* "second");
+  n1=node_ini();
+  n2=node_ini();
+  node_setId(n1,111);
+  node_setName(n1,"first");
+  node_setId(n2,222);
+  node_setName(n2,"second");
   node_print(file, n1);
   node_print(file, n2);
   if(node_cmp(n1,n2)==0){
