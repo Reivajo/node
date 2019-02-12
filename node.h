@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "types.h"
 typedef struct _Node Node;
-/ * Initialize a node, reserving memory and returning the initialized node if
+/* Initialize a node, reserving memory and returning the initialized node if
  * it was done correctly, otherwise return NULL and print the corresponding
  * string to the error in stderror */
 Node * node_ini();

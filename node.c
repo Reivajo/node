@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "types.h"
 #include "node.h"
 
-struct Node{
+struct _Node{
 char name[100];
 int id;
 int nConnect;
@@ -11,10 +12,10 @@ int nConnect;
 
 Node * node_ini(){
 Node *f;
-f= (*Node)malloc(sizeof(Node));
+f= (Node*)malloc(sizeof(Node));
 
 if(f==NULL){
- fprintf(strerror,enno);
+ fprintf(stderror,erno);
  return NULL;
 }
 return f;
@@ -63,7 +64,7 @@ strcpy(n->name, name);
 }
 /* Modifica el n�mero de conexiones de un nodo dado, devuelve NULL en caso de
 error */
-Node * node_setConnect(Node * n, const int cn){
+Node * node_setConnect(Node * n, const int nc){
 if(n==NULL){
  return NULL;
 }
@@ -111,7 +112,7 @@ return f;
 int node_print(FILE *pf, const Node * n){
 int num_Char=0;
 if(n==NULL){
- printf(strerror,enno);
+ printf(stderror,erno);
  return n;
 }
 char nameCopied[100];
@@ -119,7 +120,7 @@ pf=fopen(pf.txt,"w");
 num_char = fprintf(pf.txt, "%n, %s, %n,\n",n->id,n->name,n->nConnect);
 
 if(num_char==0){
-    fprintf(strerror, "%s", enno);
+    fprintf(stderror, "%s", erno);
 }
 
 pf=fclose(pf.txt);
