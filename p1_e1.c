@@ -13,16 +13,27 @@ int main(){
   node_setName(Node * n1, const char* "first");
   node_setId(Node * n2, const int 222);
   node_setName(Node * n2, const char* "second");
-  printf("[%s %d] [%s %d\n]",n1->name,n1->id,n2->name,n2->id);
-  int cmp;
-  cmp=node_cmp (const Node * n1, const Node * n2);
-  if(cmp==0){
-    printf("Both nodes are equal")
+  node_print(file, n1);
+  node_print(file, n2);
+  if(node_cmp(n1,n2)==0){
+   fprintf(file,"Are they equal? Yes");
+  
+  }else {
+    fprintf(file,"Are they equal? No");
   }
-  else if(cmp=1){
-    printf("El id del nodo 1 es mayor que el id del nodo 2");
+  fprintf(file,"Id of the first node: %d",node_getId(n1));
+  fprintf(file,"The name of the second node is: %s",node_getName(n2));
+
+  node_print(file, n1);
+  node_print(file, node_copy(n1));
+
+  if(node_cmp(n1,n2)==0){
+   fprintf(file,"Are they equal? Yes");
+  
+  }else {
+    fprintf(file,"Are they equal? No");
   }
-  else if(cmp=-1){
-    printf("El id del nodo 2 es mayor que el id del nodo 1")
-  }
+  node_destroy(n1);
+  node_destroy(n2);
+
 }
