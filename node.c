@@ -91,13 +91,13 @@ return 1;
 */
 Node * node_copy(const Node * src){
 Node *f;
-f=(* Node)malloc(sizeof(Node));
+f=(Node*)malloc(sizeof(Node));
 if(f==NULL){
  return NULL;
 }
 strcpy(f->name,src->name);
-f->id=src->id
-f->nConnect=src->nConnect
+f->id=src->id;
+f->nConnect=src->nConnect;
 
 if((f->name==NULL)||(f->id==NULL)||(f->nConnect==NULL)){
 return NULL;  
@@ -113,16 +113,16 @@ int node_print(FILE *pf, const Node * n){
 int num_Char=0;
 if(n==NULL){
  printf(stderror,erno);
- return n;
+ return NULL;
 }
 char nameCopied[100];
-pf=fopen(pf.txt,"w");
+pf=fopen(pf,"a");
 num_char = fprintf(pf.txt, "%n, %s, %n,\n",n->id,n->name,n->nConnect);
 
 if(num_char==0){
     fprintf(stderror, "%s", erno);
 }
 
-pf=fclose(pf.txt);
-return num_char;
+pf=fclose(pf);
+return num_Char;
 }
