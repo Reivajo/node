@@ -109,13 +109,19 @@ return f;
  * Comprueba si ha habido errores en el flujo de salida, en ese caso imprime
  * mensaje de error en stderror*/
 int node_print(FILE *pf, const Node * n){
-int nCar;
+int num_Char=0;
 if(n==NULL){
  printf(strerror,enno);
  return n;
 }
 char nameCopied[100];
 pf=fopen(pf.txt,"w");
-return(fprintf(pf.txt, "%n, %s, %n,\n",n->id,n->name,n->nConnect));
+num_char = fprintf(pf.txt, "%n, %s, %n,\n",n->id,n->name,n->nConnect);
+
+if(num_char==0){
+    fprintf(strerror, "%s", enno);
+}
+
 pf=fclose(pf.txt);
+return num_char;
 }
