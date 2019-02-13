@@ -113,14 +113,14 @@ Node * node_copy(const Node * src){
  * Comprueba si ha habido errores en el flujo de salida, en ese caso imprime
  * mensaje de error en stderror*/
 int node_print(FILE *pf, const Node * n){
-  	fopen(pf,"w");
 	int num_Char=0;
+
+	pf=fopen("file.txt","a");
 	if(n==NULL){
 		fprintf(stderr,"%s\n",strerror(errno));
 		return NULL;
 	}
 	char nameCopied[100];
-	pf=fopen(pf,"a");
 	num_Char = fprintf(pf, "%n, %s, %n,\n",n->id,n->name,n->nConnect);
 
 	if(num_Char==0){
