@@ -102,7 +102,7 @@ Node * node_copy(const Node * src){
 	f->id=src->id;
 	f->nConnect=src->nConnect;
 
-	if((f->name==NULL)||(f->id==NULL)||(f->nConnect==NULL)){
+	if((!f->name)||(!f->id)||(!f->nConnect)){
 		return NULL;  
 	}
 	return f;
