@@ -128,6 +128,6 @@ int node_print(FILE *pf, const Node * n){
 		fprintf(stderr,"%s\n",strerror(errno));
 	}
 
-	pf=fclose(pf);
+	fclose(pf);
 	return num_Char;
 }
