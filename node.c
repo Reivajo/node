@@ -16,7 +16,7 @@ Node * node_ini(){
 	f= (Node*)malloc(sizeof(Node));
 
 	if(f==NULL){
-		fprintf(stderr,errno);
+		fprintf(stderr, "%s\n", strerror(errno));
 		return NULL;
 	}
 	return f;
@@ -52,7 +52,7 @@ Node * node_setId(Node * n, const int id){
 		return NULL;
 	}
 	n->id=id;
-
+	return n;
 }
 
 /* Modifica el nombre de un nodo dado, devuelve NULL en caso de error */
@@ -61,7 +61,7 @@ Node * node_setName(Node * n, const char* name){
 		return NULL;
 	}
 	strcpy(n->name, name);
-
+	return n;
 }
 /* Modifica el n�mero de conexiones de un nodo dado, devuelve NULL en caso de
 error */
@@ -70,6 +70,7 @@ Node * node_setConnect(Node * n, const int nc){
 		return NULL;
 	}
 	n->nConnect=nc;
+	return n;
 }
 /* Compara dos nodos por el id y despu�s el nombre.
  * Devuelve 0 cuando ambos nodos tienen el mismo id, un n�mero menor que
