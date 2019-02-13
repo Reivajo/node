@@ -122,12 +122,12 @@ int node_print(FILE *pf, const Node * n){
 		return NULL;
 	}
 	char nameCopied[100];
-	num_Char = fprintf(pf, "%n, %s, %n,\n",n->id,n->name,n->nConnect);
+	num_Char = fprintf(pf, "%d, %s, %d,\n",n->id,n->name,n->nConnect);
 
 	if(num_Char==0){
 		fprintf(stderr,"%s\n",strerror(errno));
 	}
 
-	pf=fclose(pf);
+	fclose(pf);
 	return num_Char;
 }
