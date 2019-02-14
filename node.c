@@ -116,13 +116,12 @@ Node * node_copy(const Node * src){
 int node_print(FILE *pf, const Node * n){
 	int num_Char=0;
 
-	pf=fopen("file.txt","a");
 	if(n==NULL){
 		fprintf(stderr,"%s\n",strerror(errno));
 		return NULL;
 	}
 	char nameCopied[100];
-	num_Char = fprintf(pf, "%d, %s, %d,\n",n->id,n->name,n->nConnect);
+	num_Char = fprintf(pf, "%d, %s, %d\n",n->id,n->name,n->nConnect);
 
 	if(num_Char==0){
 		fprintf(stderr,"%s\n",strerror(errno));

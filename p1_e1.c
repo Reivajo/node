@@ -7,6 +7,7 @@
 int main(){
 
   FILE *file=NULL;
+  file=fopen("file.txt","a");
   Node *n1;
   Node *n2;
   n1=node_ini();
@@ -18,13 +19,13 @@ int main(){
   node_print(file, n1);
   node_print(file, n2);
   if(node_cmp(n1,n2)==0){
-   fprintf(file,"Are they equal? Yes");
+   fprintf(file,"Are they equal? Yes\n");
   
   }else {
-    fprintf(file,"Are they equal? No");
+    fprintf(file,"Are they equal? No\n");
   }
-  fprintf(file,"Id of the first node: %d",node_getId(n1));
-  fprintf(file,"The name of the second node is: %s",node_getName(n2));
+  fprintf(file,"Id of the first node: %d\n",node_getId(n1));
+  fprintf(file,"The name of the second node is: %s\n",node_getName(n2));
 
   node_print(file, n1);
   node_print(file, node_copy(n1));
