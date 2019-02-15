@@ -10,4 +10,5 @@ typedef enum {
 typedef enum {
  FALSE = 0, TRUE = 1
 } Bool;
+
 #endif /* TYPES_H */

@@ -1,11 +1,26 @@
+CFLAGS = -Wall -ansi -pedantic
 SRC := $(wildcard *.c)
-EXEC := $(SRC:%.c=%)
+OBJ := $(patsubst %.c,%.o,$(SRC))
+EXEC = p1
+TARNAME := $(EXEC:%=%.tgz)
 
-all: $(EXEC)
+# $< primero despues de :
+# $^ todo despues de :
+# $@ izquierda de :
 
-%: %.c
-	gcc -o $@ $< -I.
+all: $(EXEC) 
 
+%.o: %.c %.h
+	gcc -c $(CFLAGS) $<
+
+
+$(EXEC): $(OBJ)
+	gcc $^ -o $@
+
+
+dist:
+	@tar -czf $(TARNAME) *.h *.c
+	@echo Fichero $(TARNAME) creado 
 
 clean:
-	rm -rf $(EXEC)
+	rm -f $(EXEC) *.o
