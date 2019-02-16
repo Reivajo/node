@@ -12,6 +12,7 @@ struct _Graph {
     int num_edges;
     int num_nodes;	
 };
+enum { NO_FILE_POS_VALUES = 2 };
 
 /********** private functions *****************/
 int find_node_index(const Graph * g, int nId1); 

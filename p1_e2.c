@@ -5,7 +5,7 @@
 #include "node.h"
 #include "graph.h"
 
-int main1(){
+int main(){
 
   Node *n1;
   Node *n2;
@@ -18,6 +18,11 @@ int main1(){
   node_setId(n2,222);
   node_setName(n2,"second");
   g=graph_ini();
+  graph_insertNode(g, n1);
+  graph_insertNode(g, n2);
+  graph_insertEdge(g, node_getId(n1), node_getId(n2));
+
+
   return 0;
 }
 
