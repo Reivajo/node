@@ -254,10 +254,24 @@ Bool* graph_getConectionsIndex(const Graph * g, int index) {
 	return array; 
 } 
 int graph_print(FILE *pf, const Graph * g){
-
-	
-
+   if(!pf || !g){
+     fprintf(stderr,"%s\n",strerror(errno));
+         return -1;
+   }
+   int i,j,num_char=0;
+   int *array;
+   for(i=0;i<g->num_nodes;i++){
+     num_char+=node_print(pf, g->nodes[i]);
+     for(j=0;j>node_getConnect(g->nodes[i]);j++){
+       array=graph_getConectionsIndex(g,i);
+       num_char+=fprintf(pf,"%d",array[j]);
+     }
+     fprintf(pf,"\n");
+   }
+   free (array);
+   return num_char;
 }
+
 
 Status graph_readFromFile (FILE *fin, Graph *g) {    
 	Node *n;    
