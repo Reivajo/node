@@ -194,57 +194,25 @@ Bool graph_areConnected(const Graph * g, const int nId1, const int nId2){
 
 	return g->matrix[index1][index2];
 }
-<<<<<<< HEAD
 
 int* graph_getConnectionsFrom(const Graph * g, const int fromId){
 	
-	Node n;
-
-	n=graph_getNode(g,fromId);
-
-	return n->nConnect;
+	int index,tam,i;
+	int *var;
+	int *aux;
+	index=find_node_index(g,fromId);
+	tam=node_getConnect(g->node[index]);
+	if(!(var=graph_getConectionsIndex(g,index))){
+		return NULL;
+	}
+	for(i=0;i<=tam;i++){
+		aux=g->node[var[i]];
+		var[i]=node_getId(aux);
+	}
+	return aux;
 }
 
-int find_node_index(const Graph * g, int nId1) {    
-	int i;    
-	if (!g) return -1;
 
-	for(i=0; i < g->num_nodes; i++) {        
-
-		if (node_getId(g->node[i]) ==  nId1) 
-			return i;    
-
-	} /* ID not find   */
-	return -1; 
-} 
-
-Bool* graph_getConectionsIndex(const Graph * g, int index) {    
-	Bool *array = NULL;
-	int i, j=0, size;        
-	if (!g) return NULL;    
-
-	if (index < 0 || index >g->num_nodes) return NULL;    
-
-	/* get memory for the array with the connected nodes index */
-
-	size = node_getConnect (g->node[index]);    
-	array = (Bool*) malloc(sizeof(Bool) * size);    
-
-	if (!array) {        
-	/* print errorr message  */
-	fprintf (stderr, "%s\n", strerror(errno));        
-	return NULL;    
-	}        
-
-    /* assign values to the array with the indexes of the connected nodes  */  
-	for(i = 0; i< g->num_nodes; i++) {        
-		if (g->matrix[index][i] == TRUE) {            
-			array[j] = i;            
-			j++;        
-		}    
-	}        
-	return array; 
-} 
 
 int graph_print(FILE *pf, const Graph * g){
    if(!pf || !g){
@@ -254,8 +222,8 @@ int graph_print(FILE *pf, const Graph * g){
    int i,j,num_char=0;
    int *array;
    for(i=0;i<g->num_nodes;i++){
-     num_char+=node_print(pf, g->nodes[i]);
-     for(j=0;j>node_getConnect(g->nodes[i]);j++){
+     num_char+=node_print(pf, g->node[i]);
+     for(j=0;j>node_getConnect(g->node[i]);j++){
        array=graph_getConectionsIndex(g,i);
        num_char+=fprintf(pf,"%d",array[j]);
      }
