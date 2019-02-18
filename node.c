@@ -8,7 +8,7 @@
 extern int errno;
 
 struct _Node{
-	char name[100];
+	char *name;
 	int id;
 	int nConnect;
 };
@@ -21,9 +21,12 @@ Node * node_ini(){
 		fprintf(stderr,"%s\n",strerror(errno));
 		return NULL;
 	}
+
+	f->name = (char *) malloc(100*sizeof(char));
 	return f;
 }
 void node_destroy(Node * n){
+	free(n->name);
 	free(n);
 }
 /* Devuelve el id de un nodo dado, o -1 en caso de error */
@@ -103,7 +106,7 @@ Node * node_copy(const Node * src){
 	f->id=src->id;
 	f->nConnect=src->nConnect;
 
-	if((!f->name)||(!f->id)||(!f->nConnect)){
+	if(!f->name){
 		return NULL;  
 	}
 	return f;
@@ -118,9 +121,9 @@ int node_print(FILE *pf, const Node * n){
 
 	if(n==NULL){
 		fprintf(stderr,"%s\n",strerror(errno));
-		return NULL;
+		return 0;
 	}
-	char nameCopied[100];
+	
 	num_Char = fprintf(pf, "%d, %s, %d\n",n->id,n->name,n->nConnect);
 
 	if(num_Char==0){

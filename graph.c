@@ -12,6 +12,7 @@ struct _Graph {
     int num_edges;
     int num_nodes;	
 };
+enum { NO_FILE_POS_VALUES = 2 };
 
 /********** private functions *****************/
 int find_node_index(const Graph * g, int nId1) {    
@@ -29,7 +30,8 @@ int find_node_index(const Graph * g, int nId1) {
 
 Bool* graph_getConectionsIndex(const Graph * g, int index) {    
 	Bool *array = NULL;
-	int i, j=0, size;        
+	int i, j=0, size;
+
 	if (!g) return NULL;    
 
 	if (index < 0 || index >g->num_nodes) return NULL;    
@@ -140,28 +142,27 @@ Status graph_setNode (Graph *g, const Node *n){
 
 		return ERROR;
 	}
-	node_setName(g->node[index])=node_getName(n);
-	node_setConnect(g->node[index])=node_getConnect(n);
+	node_setName(g->node[index], node_getName(n));
+	node_setConnect(g->node[index], node_getConnect(n));
 
 	return OK;
 }
 
 int * graph_getNodesId (const Graph * g){
 
-	int i;
-	int array;
+	int *ids, i;
 
-	array=(Graph*)malloc(g->num_nodes,sizeof(Graph));
+	ids = (int*)malloc(g->num_nodes*sizeof(int));
 
-	if(array==NULL){
-		return -1;
-	}
+	if(ids==NULL)
+		return NULL;
+	
+	for(i = 0; i < g->num_nodes; i++)
+		ids[i] = node_getId(g->node[i]);
 
-		for(i=0;i<g->num_nodes;i++){
-			array[i]=node_getId(g->node[i]);
-		}
 
-	return array;
+	return ids;
+
 }
 
 int graph_getNumberOfNodes(const Graph * g){
@@ -187,22 +188,13 @@ Bool graph_areConnected(const Graph * g, const int nId1, const int nId2){
 
 	int index1,index2;
 	int i;
-	Bool array[MAX_NUM_NODES];
 
 	index1=find_node_index(g,nId1);
 	index2=find_node_index(g,nId2);
 
-	array=graph_getConectionsIndex(g,index1);
-
-	for(i=0;i<strlen(array);i++){
-
-		if(array[i]==index2) 	
-			return TRUE;
-	}
-
-	
-	return FALSE;
+	return g->matrix[index1][index2];
 }
+<<<<<<< HEAD
 
 int* graph_getConnectionsFrom(const Graph * g, const int fromId){
 	
@@ -253,6 +245,7 @@ Bool* graph_getConectionsIndex(const Graph * g, int index) {
 	}        
 	return array; 
 } 
+
 int graph_print(FILE *pf, const Graph * g){
    if(!pf || !g){
      fprintf(stderr,"%s\n",strerror(errno));
@@ -271,7 +264,6 @@ int graph_print(FILE *pf, const Graph * g){
    free (array);
    return num_char;
 }
-
 
 Status graph_readFromFile (FILE *fin, Graph *g) {    
 	Node *n;    
