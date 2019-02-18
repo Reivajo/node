@@ -13,13 +13,13 @@ int main(int argc, char const *argv[]) {
 	if (argc <= 2) 
 		return 1;
 
+
 	graphFile = strdup(argv[1]);
 	filename = strdup(argv[2]);
 
 	g = graph_ini();
 	file1 = fopen(graphFile, "r");
 	file2 = fopen(filename, "w");
-
 	graph_readFromFile(file1, g);
 
 	graph_print(file2, g);
