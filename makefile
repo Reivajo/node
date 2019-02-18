@@ -1,6 +1,6 @@
 CFLAGS = -Wall -ansi -pedantic
 
-EXEC = p1_e1 p1_e2
+EXEC = p1_e1 p1_e2 p1_e3
 EXECOBJ := $(EXEC:%=%.o)
 
 DEPS := $(wildcard *.h)
@@ -28,6 +28,12 @@ p1_e2: p1_e2.o graph.o node.o
 	gcc $^ -o $@
 
 p1_e2.o: p1_e2.c graph.h node.h types.h
+	gcc -c $< -o $@
+
+p1_e3: p1_e3.o graph.o node.o
+	gcc $^ -o $@
+
+p1_e3.o: p1_e3.c graph.h node.h types.h
 	gcc -c $< -o $@
 
 graph.o: graph.c graph.h node.h types.h

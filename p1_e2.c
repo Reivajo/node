@@ -5,6 +5,7 @@
 #include "node.h"
 #include "graph.h"
 
+
 int main(){
 
   Node *n1;
