@@ -15,14 +15,14 @@ struct _Node{
 
 Node * node_ini(){
 	Node *f;
-	f= (Node*)malloc(sizeof(Node));
+	f= (Node*)calloc(1,sizeof(Node));
 
 	if(f==NULL){
 		fprintf(stderr,"%s\n",strerror(errno));
 		return NULL;
 	}
 
-	f->name = (char *) malloc(100*sizeof(char));
+	f->name = (char *)calloc(100,sizeof(char));
 	return f;
 }
 void node_destroy(Node * n){
@@ -98,7 +98,7 @@ int node_cmp (const Node * n1, const Node * n2){
 */
 Node * node_copy(const Node * src){
 	Node *f;
-	f=(Node*)malloc(sizeof(Node));
+	f=(Node*)calloc(1,sizeof(Node));
 	if(f==NULL){
 		return NULL;
 	}

@@ -98,8 +98,7 @@ Status graph_insertNode(Graph * g, const Node* n) {
     }
     id = node_getId(n);
     if (find_node_index(g, id) != -1) return ERROR;
-    
-    n=node_ini();
+   
     g->node[g->num_nodes]=node_copy(n);
 
     g->num_nodes++;
@@ -209,7 +208,7 @@ int* graph_getConnectionsFrom(const Graph * g, const int fromId){
 		aux=g->node[var[i]];
 		var[i]=node_getId(aux);
 	}
-	return aux;
+	return var;
 }
 
 

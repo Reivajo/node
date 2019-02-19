@@ -20,6 +20,7 @@ int main(int argc, char const *argv[]) {
 	g = graph_ini();
 	file1 = fopen(graphFile, "r");
 	file2 = fopen(filename, "w");
+
 	graph_readFromFile(file1, g);
 
 	graph_print(file2, g);
