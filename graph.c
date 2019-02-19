@@ -99,8 +99,8 @@ Status graph_insertNode(Graph * g, const Node* n) {
     id = node_getId(n);
     if (find_node_index(g, id) != -1) return ERROR;
     
-    n=node_ini();
     g->node[g->num_nodes]=node_copy(n);
+    	
 
     g->num_nodes++;
     return OK;
