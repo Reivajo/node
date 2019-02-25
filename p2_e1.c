@@ -11,7 +11,7 @@ int main() {
 	Node *n;
 	Stack *s;
 	EleStack *es;
-	int num_chars;
+	int num_chars=0,i;
 
 	n = node_ini();
 	s = stack_ini();
@@ -38,9 +38,18 @@ int main() {
 
 	fprintf(f,"Emptying stack. Elements extracted: \n")
 	
+	while(stack_isEmpty==FALSE){
+		EleStack_print(f,s->item[s->top]);
+		stack_pop(s);
+	}
 
+	fprintf(f,"Print the contents of the stack after emptying: \n");
 
+	num_chars=stack_print(s);
 
+	fprintf(f,"printed characters: %d\n",num_chars);
+
+	
 
 
 	return 0;
