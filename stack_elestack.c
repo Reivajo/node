@@ -102,6 +102,8 @@ int stack_print(FILE *f, const Stack *s){
 	for(i=s->top;i>-1;i--){
 
 		num_chars+=EleStack_print(f,s->item[i]);
+		fprintf(f,"\n");
+
 	}
 
 	return num_chars;

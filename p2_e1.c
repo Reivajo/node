@@ -11,7 +11,7 @@ int main() {
 	FILE *f = NULL;
 	Node *n;
 	Stack *s;
-	EleStack *es;
+	EleStack *es, *pop;
 	int num_chars=0,i;
 
 	n = node_ini();
@@ -40,11 +40,13 @@ int main() {
 	fprintf(f,"Emptying stack. Elements extracted: \n");
 	
 	while(stack_isEmpty(s)==FALSE){
-		stack_print(f, s);
-		EleStack_destroy(stack_pop(s));
+		pop = stack_pop(s);
+		EleStack_print(f, pop);
+		fprintf(f," ");
+		EleStack_destroy(pop);
 	}
 
-	fprintf(f,"Print the contents of the stack after emptying: \n");
+	fprintf(f,"\nPrint the contents of the stack after emptying: \n");
 
 	num_chars=stack_print(f,s);
 

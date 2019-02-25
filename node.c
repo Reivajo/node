@@ -26,7 +26,11 @@ Node * node_ini(){
 	return f;
 }
 void node_destroy(Node * n){
-	free(n);
+	if(n) {
+		if (n->name)
+			free(n->name);
+		free(n);
+	}
 }
 /* Devuelve el id de un nodo dado, o -1 en caso de error */
 int node_getId(const Node * n){
@@ -63,6 +67,9 @@ Node * node_setId(Node * n, const int id){
 Node * node_setName(Node * n, const char* name){
 	if(n==NULL)
 		return NULL;
+
+	if (n->name)
+		free(n->name);
 
 	n->name = strdup(name);
 	return n;
@@ -122,8 +129,8 @@ int node_print(FILE *pf, const Node * n){
 		fprintf(stderr,"%s\n",strerror(errno));
 		return 0;
 	}
-	
-	num_Char = fprintf(pf, "%d, %s, %d\n",n->id,n->name,n->nConnect);
+
+	num_Char = fprintf(pf, "[%d, %s, %d]",n->id,n->name,n->nConnect);
 
 	if(num_Char==0){
 		fprintf(stderr,"%s\n",strerror(errno));
