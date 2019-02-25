@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #include "node.h"
 #include "elestack.h"
 #include "stack_elestack.h"  
@@ -66,7 +69,7 @@ EleStack * EleStack_copy(const EleStack *ele){
 Bool EleStack_equals(const EleStack *ele1, const EleStack *ele2){
 
 	if(!ele1 || !ele2){
-		return NULL;
+		return FALSE;
 	}
 
 	if(node_cmp(ele1->info,ele2->info)==0){
@@ -80,10 +83,10 @@ int EleStack_print(FILE *f, const EleStack *ele){
 	int num_chars;
 
 	if(!f || !ele){
-		return NULL;
+		return -1;
 	}
 
-	num_chars=node_printf(f, ele->info);
+	num_chars=node_print(f, ele->info);
 
 	return num_chars;
 
