@@ -27,7 +27,10 @@ int main(){
   }
   fprintf(file,"Id of the first node: %d\n",node_getId(n1));
   fprintf(file,"The name of the second node is: %s\n",node_getName(n2));
+  node_destroy(n2);
+
   n2=node_copy(n1);
+
   node_print(file,n1);
   node_print(file,n2);
   
@@ -37,7 +40,6 @@ int main(){
   }else {
     fprintf(file,"\nAre they equal? No\n");
   }
-
   node_destroy(n1);
   node_destroy(n2);
   

@@ -22,9 +22,6 @@ Node * node_ini(){
 		return NULL;
 	}
 
-	node_setId(f,-1);
-	node_setName(f,"");
-	node_setConnect(f,0);
 
 	return f;
 }

@@ -209,7 +209,7 @@ int* graph_getConnectionsFrom(const Graph * g, const int fromId){
 		aux=g->node[var[i]];
 		var[i]=node_getId(aux);
 	}
-	return aux;
+	return var;
 }
 
 

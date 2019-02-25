@@ -13,6 +13,7 @@ int main(int argc, char const *argv[]) {
 	if (argc <= 2) 
 		return 1;
 
+
 	graphFile = strdup(argv[1]);
 	filename = strdup(argv[2]);
 
