@@ -1,5 +1,9 @@
+#include "node.h"
+#include "elestack.h"
+#include "stack_elestack.h"  
+
 struct _EleStack {
-Node* info;
+	Node* info;
 };
 
 EleStack * EleStack_ini(){
@@ -29,8 +33,8 @@ Status EleStack_setInfo(EleStack *ele, void* n){
 	if(!ele || !n){
 		return ERROR;
 	}
-    if(ele->info){  
-	  node_destroy(ele->info);
+	if(ele->info){  
+		node_destroy(ele->info);
 	}
 
 	ele->info=node_copy ((Node*) n);
