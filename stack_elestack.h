@@ -1,4 +1,10 @@
-#define MAXSTACK 100
+
+#ifndef STACK_H
+#define STACK_H
+
+#include "elestack.h"
+#include "types.h"
+
 typedef struct _Stack Stack;
 /**------------------------------------------------------------------
 Initialize the stack reserving memory. Output: NULL if there was an error or the stack if it went well
@@ -31,3 +37,4 @@ Print the entire stack, placing the EleStack on top at the beginning of printing
 stack and file where to print it. Output: Returns the number of written characters.
 ------------------------------------------------------------------*/
 int stack_print(FILE*, const Stack*);
+#endif 

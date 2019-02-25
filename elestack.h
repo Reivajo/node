@@ -1,3 +1,8 @@
+#ifndef ELESTACK_H
+#define ELESTACK_H
+
+#include "types.h"
+
 typedef struct _EleStack EleStack;
 /**------------------------------------------------------------------
 Initialize a stack EleStack. Output: Pointer to the initialized EleStack or NULL in case of error
@@ -32,3 +37,5 @@ Print the EleStack in a file that is already open. Input: File in which it is pr
 Returns the number of written characters.
 ------------------------------------------------------------------*/
 int EleStack_print(FILE *, const EleStack *);
+
+#endif

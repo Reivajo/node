@@ -61,10 +61,10 @@ Node * node_setId(Node * n, const int id){
 
 /* Modifica el nombre de un nodo dado, devuelve NULL en caso de error */
 Node * node_setName(Node * n, const char* name){
-	if(n==NULL){
+	if(n==NULL)
 		return NULL;
-	}
-	strcpy(n->name, name);
+
+	n->name = strdup(name);
 	return n;
 }
 /* Modifica el n�mero de conexiones de un nodo dado, devuelve NULL en caso de
@@ -101,7 +101,7 @@ Node * node_copy(const Node * src){
 	if(f==NULL){
 		return NULL;
 	}
-	strcpy(f->name,src->name);
+	f->name = strdup(src->name);
 	f->id=src->id;
 	f->nConnect=src->nConnect;
 
@@ -129,6 +129,5 @@ int node_print(FILE *pf, const Node * n){
 		fprintf(stderr,"%s\n",strerror(errno));
 	}
 
-	fclose(pf);
 	return num_Char;
 }

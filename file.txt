@@ -1,1 +1,14 @@
+Inserting node 1 ... result ...: 1Inserting node 2 ... result ...: 1Connected node 1 and node 2: NoConnected node 2 and node 1: YesInserting node 2 ... result ...: 0Graph111, first, 0
+
+222, second, 0
+
+Print the contents of the stack 
+222, second, 0
 111, first, 0
+printed characters: 29
+Emptying stack. Elements extracted: 
+222, second, 0
+111, first, 0
+111, first, 0
+Print the contents of the stack after emptying: 
+printed characters: 0

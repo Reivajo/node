@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "stack_elestack.h"
+
 # define MAXSTACK 1024
 struct _Stack {
  int top;
@@ -5,16 +9,17 @@ struct _Stack {
 };
 
 Stack * stack_ini(){
-
 	Stack *s;
+	int i;
+
 	s=(Stack *)calloc(1,sizeof(Stack));
 
 	if(s==NULL){
 		return NULL;
 	}
 	for (i=0; i<MAXSTACK; i++) {
-	s->item[i] = NULL;
-}
+		s->item[i] = NULL;
+	}
 	s->top = -1;
 	return s;
 }
@@ -32,10 +37,10 @@ void stack_destroy(Stack *s){
 
 }
 
-STATUS stack_push(Stack *s, const EleStack *ele) {
+Status stack_push(Stack *s, const EleStack *ele) {
 
 	EleStack *aux = NULL;
-	 if (s == NULL || e == NULL || stack_isFull(s) == TRUE) {
+	 if (s == NULL || ele == NULL || stack_isFull(s) == TRUE) {
 		return ERROR;
 	}
 	aux = EleStack_copy(ele);
@@ -50,14 +55,15 @@ STATUS stack_push(Stack *s, const EleStack *ele) {
 
 
 EleStack * stack_pop(Stack *s){
-
+	EleStack *ele;
 	if (s == NULL || stack_isEmpty(s) == TRUE) {
 		return NULL;
 	}
-	  ele = s->item[s->top];
-	  s->item[s->top] = NULL;
-	  s->top--;
-	return e;
+	ele = s->item[s->top];
+	s->item[s->top] = NULL;
+	s->top--;
+	
+	return ele;
 }
 
 Bool stack_isEmpty(const Stack *s){
@@ -87,10 +93,10 @@ Bool stack_isFull(const Stack *s){
 int stack_print(FILE *f, const Stack *s){
 
 	int i=0;
-	int num_chars;
+	int num_chars = 0;
 
 	if(!f || !s){
-		return NULL;
+		return -1;
 	}
 
 	for(i=s->top;i>-1;i--){

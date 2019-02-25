@@ -5,6 +5,7 @@
 #include "types.h"
 #include "node.h"
 #include "elestack.h"
+#include "stack_elestack.h"
 
 int main() {
 	FILE *f = NULL;
@@ -17,40 +18,42 @@ int main() {
 	s = stack_ini();
 	es = EleStack_ini();
 
-	f=fopen("file.txt","a");
+	f=stdout;/*fopen("file.txt","a");*/
 
 	node_setId(n, 111);
 	node_setName(n,"first");
 
 	EleStack_setInfo(es, n);
-	stack_push(stack, es);
+	stack_push(s, es);
 
-	node_setId(n2,222);
-	node_setName(n2,"second");
+	node_setId(n,222);
+	node_setName(n,"second");
 
 	EleStack_setInfo(es, n);
-	stack_push(stack, es);
+	stack_push(s, es);
 
 	fprintf(f,"Print the contents of the stack \n");
-	num_chars=stack_print(f, stack);
+	num_chars=stack_print(f, s);
 
 	fprintf(f,"printed characters: %d\n",num_chars);
 
-	fprintf(f,"Emptying stack. Elements extracted: \n")
+	fprintf(f,"Emptying stack. Elements extracted: \n");
 	
-	while(stack_isEmpty==FALSE){
-		EleStack_print(f,s->item[s->top]);
-		stack_pop(s);
+	while(stack_isEmpty(s)==FALSE){
+		stack_print(f, s);
+		EleStack_destroy(stack_pop(s));
 	}
 
 	fprintf(f,"Print the contents of the stack after emptying: \n");
 
-	num_chars=stack_print(s);
+	num_chars=stack_print(f,s);
 
 	fprintf(f,"printed characters: %d\n",num_chars);
 
-	
-
+	stack_destroy(s);
+	node_destroy(n);
+	EleStack_destroy(es);
+	fclose(f);
 
 	return 0;
 }

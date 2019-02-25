@@ -28,8 +28,8 @@ int find_node_index(const Graph * g, int nId1) {
 	return -1; 
 } 
 
-Bool* graph_getConectionsIndex(const Graph * g, int index) {    
-	Bool *array = NULL;
+int* graph_getConectionsIndex(const Graph * g, int index) {    
+	int *array = NULL;
 	int i, j=0, size;
 
 	if (!g) return NULL;    
@@ -39,7 +39,7 @@ Bool* graph_getConectionsIndex(const Graph * g, int index) {
 	/* get memory for the array with the connected nodes index */
 
 	size = node_getConnect (g->node[index]);    
-	array = (Bool*) malloc(sizeof(Bool) * size);    
+	array = (int*) malloc(sizeof(int) * size);    
 
 	if (!array) {        
 	/* print errorr message  */
@@ -187,7 +187,6 @@ int graph_getNumberOfEdges(const Graph * g){
 Bool graph_areConnected(const Graph * g, const int nId1, const int nId2){
 
 	int index1,index2;
-	int i;
 
 	index1=find_node_index(g,nId1);
 	index2=find_node_index(g,nId2);
@@ -199,15 +198,17 @@ int* graph_getConnectionsFrom(const Graph * g, const int fromId){
 	
 	int index,tam,i;
 	int *var;
-	int *aux;
+	Node *node;
 	index=find_node_index(g,fromId);
 	tam=node_getConnect(g->node[index]);
+
+
 	if(!(var=graph_getConectionsIndex(g,index))){
 		return NULL;
 	}
 	for(i=0;i<=tam;i++){
-		aux=g->node[var[i]];
-		var[i]=node_getId(aux);
+		node=g->node[var[i]];
+		var[i]=node_getId(node);
 	}
 	return var;
 }
