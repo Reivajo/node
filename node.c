@@ -1,140 +1,168 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include <errno.h>
-#include "types.h"
-#include "node.h"
 
-extern int errno;
+#include "node.h"
+#include "types.h"
+
+
+
 
 struct _Node{
-	char *name;
+	char name[100];
 	int id;
 	int nConnect;
 };
 
-Node * node_ini(){
-	Node *f;
-	f= (Node*)calloc(1,sizeof(Node));
+/* Initialize a node, reserving memory and returning the initialized node if
+* it was done correctly, otherwise return NULL and print the corresponding
+* string to the error in stderror */
+Node *node_ini(){
+	Node *n;
+	n=(Node*)calloc(1,sizeof(Node));
+	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
 
-	if(f==NULL){
-		fprintf(stderr,"%s\n",strerror(errno));
-		return NULL;
 	}
 
+	
+	return n;
+}
 
-	return f;
-}
-void node_destroy(Node * n){
-	if(n) {
-		if (n->name)
-			free(n->name);
-		free(n);
+/* Free the dynamic memory reserved for a node */
+void node_destroy(Node *n){
+	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
 	}
+	free(n);
 }
-/* Devuelve el id de un nodo dado, o -1 en caso de error */
-int node_getId(const Node * n){
-	if(n==NULL){
-		return -1;
-	}
-	return n->id;
 
-}
-/* Devuelve un puntero al nombre de un nodo dado, o NULL en caso de error */
-char* node_getName(const Node * n){
-	if(n==NULL){
-		return NULL;
+/* Returns the id of a given node, or -1 in case of error */
+int node_getId(const Node *n){
+	int g;
+	
+	if(!n->id){
+		fprintf (stderr, "%s\n", strerror(errno));
 	}
-	return n->name;
+	g=n->id;
+        
+	return g;
 }
-/* Devuelve el n�mero de conexiones de un nodo dado, o -1 en caso de error */
-int node_getConnect(const Node * n){
-	if(n==NULL){
-		return -1;
+
+/* Returns a pointer to the name of a given node, or NULL in case of error */
+char* node_getName(const Node *n){
+	char *t;
+	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
 	}
+	t =(char *)calloc(100,sizeof(char));
+	if(!t){return NULL;}
+
+	strcpy(t,n->name);
+	return t;
+}
+
+/* Returns the number of connections of a given node, or -1 in case of error */
+int node_getConnect(const Node *n){
+	
+	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
+	}
+
 	return n->nConnect;
 }
-/* Modifica el id de un nodo dado, devuelve NULL en caso de error */
-Node * node_setId(Node * n, const int id){
-	if(n==NULL){
-		return NULL;
+
+/* Modifies the id of a given node, returns NULL in case of error */
+Node * node_setId(Node *n, const int id){
+	
+    	n->id=id;
+        
+    	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
 	}
-	n->id=id;
+
 	return n;
 }
 
-/* Modifica el nombre de un nodo dado, devuelve NULL en caso de error */
-Node * node_setName(Node * n, const char* name){
-	if(n==NULL)
-		return NULL;
+/* Modifies the name of a given node, returns NULL in case of error */
+Node * node_setName(Node *n, const char *name){
+	
+	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
+	}
 
-	if (n->name)
-		free(n->name);
-
-	n->name = strdup(name);
+	strcpy(n->name, name);
 	return n;
 }
-/* Modifica el n�mero de conexiones de un nodo dado, devuelve NULL en caso de
+
+
+/* Modifies the number of connections of a given node, returns NULL in case of
 error */
-Node * node_setConnect(Node * n, const int nc){
-	if(n==NULL){
-		return NULL;
+Node * node_setConnect(Node *n, const int cn){
+	
+	if(!n){
+		fprintf (stderr, "%s\n", strerror(errno));
 	}
-	n->nConnect=nc;
+
+	n->nConnect=cn;
 	return n;
 }
-/* Compara dos nodos por el id y despu�s el nombre.
- * Devuelve 0 cuando ambos nodos tienen el mismo id, un n�mero menor que
- * 0 cuando n1 < n2 o uno mayor que 0 en caso contrario. */
-int node_cmp (const Node * n1, const Node * n2){
-	if(n1->id==n2->id) {
-		return 0;
-	}
-	else if(n1->id<n2->id){
-		return -1;
-	}
-	else{
-		return 1;
-	}
 
-
-}
-/* Reserva memoria para un nodo en el que copia los datos del nodo src.
- * Devuelve la direcci�n del nodo copia si todo ha ido bien, o NULL en otro caso
-*/
-Node * node_copy(const Node * src){
-	Node *f;
-	f=(Node*)calloc(1,sizeof(Node));
-	if(f==NULL){
-		return NULL;
-	}
-	f->name = strdup(src->name);
-	f->id=src->id;
-	f->nConnect=src->nConnect;
-
-	if(!f->name){
-		return NULL;  
-	}
-	return f;
+/* Compares two nodes by the id and then the name.
+* Returns 0 when both nodes have the same id, a smaller number than
+* 0 when n1 <n2 or one greater than 0 otherwise. */
+int node_cmp(const Node *n1, const Node *n2){
+	
+	int ret;
+	ret=strcmp(n1->name, n2->name);
+	if(n1->id==n2->id && ret==0){
+		return 0; 
+	}else if(n1->id>n2->id && ret>0){
+			return 2;
+		}else {
+			return -2;
+			}
 
 }
-/* Imprime en pf los datos de un nodo con el formato: [id, name, nConnect]
- * Devuelve el n�mero de caracteres que se han escrito con �xito.
- * Comprueba si ha habido errores en el flujo de salida, en ese caso imprime
- * mensaje de error en stderror*/
-int node_print(FILE *pf, const Node * n){
-	int num_Char=0;
 
-	if(n==NULL){
-		fprintf(stderr,"%s\n",strerror(errno));
-		return 0;
+/* Reserves memory for a node where it copies the data from the node src.
+* Returns the address of the copied node if everything went well, or NULL
+otherwise */
+Node * node_copy(const Node *src){
+	
+	Node *copy;
+	copy=node_ini();
+	if(!copy){
+		fprintf (stderr, "%s\n", strerror(errno));
 	}
+	copy->id=src->id;
+	strcpy(copy->name, src->name);
+	copy->nConnect=src->nConnect;
+        
+	return copy;
+}
 
-	num_Char = fprintf(pf, "[%d, %s, %d]",n->id,n->name,n->nConnect);
-
-	if(num_Char==0){
-		fprintf(stderr,"%s\n",strerror(errno));
-	}
-
-	return num_Char;
+/* Prints in pf the data of a node with the format: [id, name, nConnect]
+* Returns the number of characters that have been written successfully.
+* Checks if there have been errors in the Output flow, in that case prints
+* an error message in stderror*/
+int node_print(FILE *pf, const Node *n){
+    	
+	int chars=0, u= 0, cont = 1;
+  	if(!pf){
+		fprintf (stderr, "%s\n", strerror(errno));
+    	};
+    	fprintf(pf, "[%i, %s, %i]", n->id, n->name, n->nConnect);
+    	u = n->id;
+    	for(cont=1; u>=10; cont++){
+        	u = u/10;
+    	}
+    	chars += cont + strlen(n->name);
+    	u = n->nConnect;
+    	for(cont=1; u>=10; cont++){
+        	u = u/10;
+    	}
+    	chars += cont;
+    	return chars;
 }

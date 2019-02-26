@@ -40,7 +40,7 @@ Status EleStack_setInfo(EleStack *ele, void* n){
 		node_destroy(ele->info);
 	}
 
-	ele->info=node_copy ((Node*) n);
+	ele->info = node_copy(n);
 	if(ele->info ==NULL){
 		return ERROR;
 	}

@@ -21,34 +21,34 @@ int main(){
   node_setId(n2,222);
   node_setName(n2,"second");
   g=graph_ini();
-  fprintf(file,"Inserting node 1 ... result ...: \n");
+  fprintf(file,"Inserting node 1 ... result ...: ");
   if(graph_insertNode(g, n1)==ERROR){
   	fprintf(file,"0\n");
   }else{
   	fprintf(file,"1\n");
   }
-  fprintf(file,"Inserting node 2 ... result ...: \n");
+  fprintf(file,"Inserting node 2 ... result ...: ");
   if(graph_insertNode(g, n2)==ERROR){
   	fprintf(file,"0\n");
   }else{
   	fprintf(file,"1\n");
   }
   graph_insertEdge(g, node_getId(n2), node_getId(n1));
-  fprintf(file,"Connected node 1 and node 2: \n");
+  fprintf(file,"Connected node 1 and node 2: ");
   if(graph_areConnected(g,node_getId(n1), node_getId(n2))==TRUE){
   	fprintf(file,"Yes\n");
   }else{
   	fprintf(file,"No\n");
   }
   
-  fprintf(file,"Connected node 2 and node 1: \n");
+  fprintf(file,"Connected node 2 and node 1: ");
 
   if(graph_areConnected(g,node_getId(n2), node_getId(n1))==TRUE){
   	fprintf(file,"Yes\n");
   }else{
   	fprintf(file,"No\n");
   }
-  fprintf(file,"Inserting node 2 ... result ...: \n");
+  fprintf(file,"Inserting node 2 ... result ...: ");
   if(graph_insertNode(g, n2)==ERROR){
   	fprintf(file,"0\n");
   }else{
