@@ -6,7 +6,7 @@
 #include "stack_elestack.h"  
 
 struct _EleStack {
-	int *e;
+	Node* info;
 };
 
 EleStack * EleStack_ini(){
@@ -26,8 +26,7 @@ void EleStack_destroy(EleStack *ele){
 	if(ele==NULL){
 		return;
 	}
-	/*******************************
-	node_destroy(ele->info);***********/
+	node_destroy(ele->info);
 
 	free(ele);
 }
@@ -37,13 +36,12 @@ Status EleStack_setInfo(EleStack *ele, void* n){
 	if(!ele || !n){
 		return ERROR;
 	}
-	if(ele->e){  
-		/*******************************
-		node_destroy(ele->info);***********/
+	if(ele->info){  
+		node_destroy(ele->info);
 	}
 
-	ele->e = n;
-	if(ele->e == NULL){
+	ele->info = node_copy(Node* n);
+	if(ele->info ==NULL){
 		return ERROR;
 	}
 
@@ -55,17 +53,16 @@ void * EleStack_getInfo(EleStack *ele){
 	if(!ele){
 		return NULL;
 	}
-	return ele->e;
+	return ele->info;
 }
 
 EleStack * EleStack_copy(const EleStack *ele){
-	int aux = 0;
+	
 	EleStack *ele2;
 
 	ele2 = (EleStack*)calloc(1,sizeof(EleStack));
 
-	aux = ele->e;
-	ele2->e = aux;
+	ele2->info=node_copy(ele->info);
 
 	return ele2;
 
@@ -77,7 +74,7 @@ Bool EleStack_equals(const EleStack *ele1, const EleStack *ele2){
 		return FALSE;
 	}
 
-	if(ele1->e==ele2->e){
+	if(node_cmp(ele1->info,ele2->info)==0){
 		return TRUE;
 	}
 	return FALSE;
