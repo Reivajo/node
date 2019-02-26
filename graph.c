@@ -110,11 +110,14 @@ Status graph_insertNode(Graph * g, const Node* n) {
 Status graph_insertEdge(Graph * g, const int nId1, const int nId2){
 	int index1 = find_node_index(g, nId1);
 	int index2 = find_node_index(g, nId2);
+	int num_connections=0;
 
 	if(index1 < 0 || index2 < 0)
 		return ERROR;
 
 	g->matrix[index1][index2] = TRUE;
+	num_connections=node_getConnect(g->node[index1]);
+	node_setConnect(g->node[index1],num_connections+1);
 	return OK;
 }
 
