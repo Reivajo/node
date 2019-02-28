@@ -134,14 +134,14 @@ Node * node_copy(const Node *src){
 	
 	Node *n;
 	n=node_ini();
-	if(!f){
+	if(!n){
 		fprintf (stderr, "%s\n", strerror(errno));
 	}
-	f->id=src->id;
-	strcpy(f->name, src->name);
-	f->nConnect=src->nConnect;
+	n->id=src->id;
+	strcpy(n->name, src->name);
+	n->nConnect=src->nConnect;
         
-	return copy;
+	return n;
 }
 
 /* Prints in pf the data of a node with the format: [id, name, nConnect]

@@ -37,4 +37,6 @@ Print the entire stack, placing the EleStack on top at the beginning of printing
 stack and file where to print it. Output: Returns the number of written characters.
 ------------------------------------------------------------------*/
 int stack_print(FILE*, const Stack*);
+
+double avgEleStack(Stack *s);
 #endif 

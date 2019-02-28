@@ -27,7 +27,7 @@ void EleStack_destroy(EleStack *ele){
 	if(ele==NULL){
 		return;
 	}
-	if(ele->!=NULL){
+	if(ele->e !=NULL){
 		free(ele->e);
 	}else
 	free(ele);
@@ -40,7 +40,7 @@ Status EleStack_setInfo(EleStack *ele, int* n){
 		return ERROR;
 	}
 	
-	*(ele->e) = n;
+	*(ele->e) = *n;
 	if(ele->e == NULL){
 		return ERROR;
 	}
@@ -53,7 +53,7 @@ int* EleStack_getInfo(EleStack *ele){
 	if(!ele){
 		return NULL;
 	}
-	return *(ele->e);
+	return ele->e;
 }
 
 EleStack* EleStack_copy(const EleStack *ele){

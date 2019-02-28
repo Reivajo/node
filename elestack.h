@@ -21,7 +21,7 @@ Status EleStack_setInfo(EleStack *, int*);
 Returns the EleStack content. Entry: The EleStack. Output: The content of EleStack or NULL if there has been an
 error.
 ------------------------------------------------------------------*/
-void * EleStack_getInfo(EleStack *);
+int* EleStack_getInfo(EleStack *);
 /**------------------------------------------------------------------
 Copy one EleStack in another, reserving memory. Input: the EleStack to copy. Output: Returns a pointer to the
 copied EleStack or NULL in case of error.

@@ -109,3 +109,40 @@ int stack_print(FILE *f, const Stack *s){
 	return num_chars;
 
 }
+
+double avgEleStack(Stack *s) {
+	int sum = 0, i = 0, d, *c;
+	double res, sm, count;
+
+	EleStack *ele;
+	Stack *a;
+
+	ele = EleStack_ini();
+	a = Stack_ini();
+
+	while(stack_isEmpty(s)==FALSE) {
+		ele = stack_pop(s);
+		stack_push(a, ele);
+		c = EleStack_getInfo(ele);
+		d = *c;
+		sum += d;
+		i++;
+	}
+	while(stack_isEmpty(a)==FALSE) {
+		ele = stack_pop(a);
+		stack_push(s, ele);
+	}
+	EleStack_destroy(ele);
+	stack_destroy(a);
+	sm = sum;
+	count = i;
+	res = sm/count;
+
+	return res;
+
+}
+
+
+
+
+

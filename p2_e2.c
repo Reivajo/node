@@ -16,10 +16,10 @@ int cleanUp (int ret_value, EleStack *ele, Stack *s){
 }
 
 
-int main() {
+int main(int argc, char **argv) {
 	Stack *s= NULL;
 	EleStack *ele = NULL;
-	Status flag = TRUE;
+	Bool flag = TRUE;
 	FILE *file = stdout;
 	int i, max;
 	double avg;
@@ -34,25 +34,27 @@ int main() {
 	if(s == NULL)
 		cleanUp(EXIT_FAILURE, ele, s);
 
-	ele = elestack_ini();
+	ele = Elestack_ini();
 
 	if(ele==NULL) 
 		cleanUp(EXIT_FAILURE, ele, s);
 
 	for(i = max; i >= 0, flag == TRUE; i--) {
-		if(elestack_setInfo(ele, &i) == OK)
+		if(Elestack_setInfo(ele, &i) == OK)
 			flag = stack_push(s,ele);
 	}
 	if(flag == ERROR)
 		cleanUp(EXIT_FAILURE, ele, s);
 
-	stack_print(stdout, s);
+	stack_print(file, s);
 
 	avg = avgEleStack(s);
 
-	fprintf(stdout, "The average is: %lf", avg);
+	fprintf(file, "The average is: %lf", avg);
 
-	stack_print(stdout, s);
+	stack_print(file, s);
+
+	stack_destroy(s);
 		
 	return 0;
 }
