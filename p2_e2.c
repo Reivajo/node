@@ -43,5 +43,5 @@ int main() {
 
 	stack_print(stdout, s);
 		
-
+	return 0;
 }

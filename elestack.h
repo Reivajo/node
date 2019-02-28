@@ -16,7 +16,7 @@ void EleStack_destroy(EleStack *);
 Modify the data of an EleStack. Entry: The EleStack to be modified and the content to be saved in that EleStack.
 Output: OK or ERROR
 ------------------------------------------------------------------*/
-Status EleStack_setInfo(EleStack *, void*);
+Status EleStack_setInfo(EleStack *, int*);
 /**------------------------------------------------------------------
 Returns the EleStack content. Entry: The EleStack. Output: The content of EleStack or NULL if there has been an
 error.

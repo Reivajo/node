@@ -26,23 +26,17 @@ void EleStack_destroy(EleStack *ele){
 	if(ele==NULL){
 		return;
 	}
-	/*******************************
-	node_destroy(ele->info);***********/
-
 	free(ele);
+	ele = NULL;
 }
 
-Status EleStack_setInfo(EleStack *ele, void* n){
+Status EleStack_setInfo(EleStack *ele, int* n){
 
 	if(!ele || !n){
 		return ERROR;
 	}
-	if(ele->e){  
-		/*******************************
-		node_destroy(ele->info);***********/
-	}
-
-	ele->e = n;
+	
+	*(ele->e) = n;
 	if(ele->e == NULL){
 		return ERROR;
 	}
@@ -50,22 +44,22 @@ Status EleStack_setInfo(EleStack *ele, void* n){
 	return OK;
 }
 
-void * EleStack_getInfo(EleStack *ele){
+int* EleStack_getInfo(EleStack *ele){
 
 	if(!ele){
 		return NULL;
 	}
-	return ele->e;
+	return *(ele->e);
 }
 
-EleStack * EleStack_copy(const EleStack *ele){
+EleStack* EleStack_copy(const EleStack *ele){
 	int aux = 0;
 	EleStack *ele2;
 
 	ele2 = (EleStack*)calloc(1,sizeof(EleStack));
 
-	aux = ele->e;
-	ele2->e = aux;
+	aux = *(ele->e);
+	*(ele2->e) = aux;
 
 	return ele2;
 
@@ -77,7 +71,7 @@ Bool EleStack_equals(const EleStack *ele1, const EleStack *ele2){
 		return FALSE;
 	}
 
-	if(ele1->e==ele2->e){
+	if(*(ele1->e) == *(ele2->e)) {
 		return TRUE;
 	}
 	return FALSE;
@@ -91,7 +85,7 @@ int EleStack_print(FILE *f, const EleStack *ele){
 		return -1;
 	}
 
-	num_chars=node_print(f, ele->info);
+	num_chars = fprintf(f, "%d\n", *(ele->e));
 
 	return num_chars;
 
