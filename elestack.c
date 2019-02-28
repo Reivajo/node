@@ -5,6 +5,7 @@
 #include "elestack.h"
 #include "stack_elestack.h"  
 
+
 struct _EleStack {
 	int *e;
 };
@@ -26,8 +27,11 @@ void EleStack_destroy(EleStack *ele){
 	if(ele==NULL){
 		return;
 	}
+	if(ele->!=NULL){
+		free(ele->e);
+	}else
 	free(ele);
-	ele = NULL;
+	
 }
 
 Status EleStack_setInfo(EleStack *ele, int* n){

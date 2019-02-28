@@ -7,13 +7,24 @@
 #include "elestack.h"
 #include "stack_elestack.h"
 
+int cleanUp (int ret_value, EleStack *ele, Stack *s){
+
+	EleStack_destroy(ele);
+	stack_destroy(s);
+
+	return ret_value;
+}
+
+
 int main() {
 	Stack *s= NULL;
 	EleStack *ele = NULL;
 	Status flag = TRUE;
+	FILE *file = stdout;
 	int i, max;
 	double avg;
 
+	
 	if(argc != 2)
 		return EXIT_FAILURE;
 	max = atol(argv[1]);
