@@ -150,21 +150,12 @@ Node * node_copy(const Node *src){
 * an error message in stderror*/
 int node_print(FILE *pf, const Node *n){
     	
-	int chars=0, u= 0, cont = 1;
+	int chars=0;
   	if(!pf){
 		fprintf (stderr, "%s\n", strerror(errno));
     	};
-    	fprintf(pf, "[%i, %s, %i]", n->id, n->name, n->nConnect);
-    	u = n->id;
-    	for(cont=1; u>=10; cont++){
-        	u = u/10;
-    	}
-    	chars += cont + strlen(n->name);
-    	u = n->nConnect;
-    	for(cont=1; u>=10; cont++){
-        	u = u/10;
-    	}
-    	chars += cont;
+    	chars = fprintf(pf, "[%i, %s, %i]", n->id, n->name, n->nConnect);
+    	
     	return chars;
 }
 
