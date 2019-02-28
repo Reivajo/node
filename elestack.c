@@ -27,7 +27,7 @@ void EleStack_destroy(EleStack *ele){
 	if(ele==NULL){
 		return;
 	}
-	if(ele->!=NULL){
+	if(ele->e !=NULL){
 		free(ele->e);
 	}else
 	free(ele);
@@ -40,7 +40,7 @@ Status EleStack_setInfo(EleStack *ele, int* n){
 		return ERROR;
 	}
 	
-	*(ele->e) = n;
+	*(ele->e) = *n;
 	if(ele->e == NULL){
 		return ERROR;
 	}
@@ -53,7 +53,7 @@ int* EleStack_getInfo(EleStack *ele){
 	if(!ele){
 		return NULL;
 	}
-	return *(ele->e);
+	return ele->e;
 }
 
 EleStack* EleStack_copy(const EleStack *ele){
@@ -93,4 +93,25 @@ int EleStack_print(FILE *f, const EleStack *ele){
 
 	return num_chars;
 
+}
+
+double avgElestack ( Stack *s){
+
+	Stack *s2;
+	EleStack *ele;
+	double counter;
+
+	s2 = stack_ini();
+
+	if(s2==NULL){
+		return -1;
+	}
+
+	while(stack_isEmpty(s)==FALSE{
+		ele=stack_pop(s->item[s->top]);
+		stack_push(s,ele);
+
+	}
+
+	return counter;
 }
