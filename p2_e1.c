@@ -18,7 +18,7 @@ int main() {
 	s = stack_ini();
 	es = EleStack_ini();
 
-	f=stdout;/*fopen("file.txt","a");*/
+	f=fopen("file.txt","a");
 
 	node_setId(n, 111);
 	node_setName(n,"first");

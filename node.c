@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -131,14 +132,14 @@ int node_cmp(const Node *n1, const Node *n2){
 otherwise */
 Node * node_copy(const Node *src){
 	
-	Node *copy;
-	copy=node_ini();
-	if(!copy){
+	Node *n;
+	n=node_ini();
+	if(!f){
 		fprintf (stderr, "%s\n", strerror(errno));
 	}
-	copy->id=src->id;
-	strcpy(copy->name, src->name);
-	copy->nConnect=src->nConnect;
+	f->id=src->id;
+	strcpy(f->name, src->name);
+	f->nConnect=src->nConnect;
         
 	return copy;
 }
@@ -166,3 +167,4 @@ int node_print(FILE *pf, const Node *n){
     	chars += cont;
     	return chars;
 }
+
