@@ -8,12 +8,13 @@ struct _Stack {
  EleStack * item[MAXSTACK];
 };
 
-Stack * stack_ini(){
+Stack * stack_ini() {
 	Stack *s;
 	int i;
 
 	s=(Stack *)calloc(1,sizeof(Stack));
-	s->item = (EleStack*)calloc(1, sizeof(EleStack));
+
+	s->item = (EleStack*)calloc(MAXSTACK, sizeof(EleStack));
 
 	if(s==NULL){
 		return NULL;
