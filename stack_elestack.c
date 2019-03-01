@@ -13,6 +13,7 @@ Stack * stack_ini(){
 	int i;
 
 	s=(Stack *)calloc(1,sizeof(Stack));
+	s->item = (EleStack*)calloc(1, sizeof(EleStack));
 
 	if(s==NULL){
 		return NULL;
@@ -118,7 +119,7 @@ double avgEleStack(Stack *s) {
 	Stack *a;
 
 	ele = EleStack_ini();
-	a = Stack_ini();
+	a = stack_ini();
 
 	while(stack_isEmpty(s)==FALSE) {
 		ele = stack_pop(s);

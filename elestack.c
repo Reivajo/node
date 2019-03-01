@@ -15,6 +15,7 @@ EleStack * EleStack_ini(){
 	EleStack *ele;
 
 	ele=(EleStack *)calloc(1,sizeof(EleStack));
+	ele->e = (int*)calloc(1,sizeof(int));
 
 	if (ele==NULL){
 		return NULL;
@@ -34,17 +35,15 @@ void EleStack_destroy(EleStack *ele){
 	
 }
 
-Status EleStack_setInfo(EleStack *ele, int* n){
+Status EleStack_setInfo(EleStack *ele, int* n) {
 
-	if(!ele || !n){
+	if(!ele || !n)
 		return ERROR;
-	}
 	
-	*(ele->e) = *n;
-	if(ele->e == NULL){
+	if(ele->e == NULL)
 		return ERROR;
-	}
-
+	*(ele->e) = *n;
+	
 	return OK;
 }
 
