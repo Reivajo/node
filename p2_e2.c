@@ -5,7 +5,6 @@
 #include "elestack.h"
 #include "stack_elestack.h"
 
-#define DEBUG() printf("%d\n", __LINE__)
 
 int cleanUp (int ret_value, EleStack *ele, Stack *s){
 
@@ -24,8 +23,6 @@ int main(int argc, char **argv) {
 	int i, max;
 	double avg;
 
-	if(argc != 2)
-		return EXIT_FAILURE;
 	max = atol(argv[1]);
 
 	s = stack_ini();
@@ -38,35 +35,23 @@ int main(int argc, char **argv) {
 	if(ele==NULL) 
 		cleanUp(EXIT_FAILURE, ele, s);
 
-	for(i = max; i >= 0, flag == OK; i--) {
-	DEBUG();
-
+	for(i = max; i >= 0; i--) {
 		if(EleStack_setInfo(ele, &i) == OK) {
-			DEBUG();
-			flag = stack_push(s,ele);
-			DEBUG();
+			if(stack_push(s,ele)==ERROR)
+				break;	
 		}	
-	DEBUG();
-
 	}
-
-	DEBUG();
-
 
 	if(flag == ERROR)
 		cleanUp(EXIT_FAILURE, ele, s);
 
-	DEBUG();
-
 	stack_print(file, s);
-	DEBUG();
 
+	
 	avg = avgEleStack(s);
-	DEBUG();
 
-	fprintf(file, "The average is: %lf", avg);
-	DEBUG();
-
+	fprintf(file, "The average is: %lf\n", avg);
+	
 	stack_print(file, s);
 
 	stack_destroy(s);

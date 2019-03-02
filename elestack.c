@@ -55,13 +55,16 @@ int* EleStack_getInfo(EleStack *ele){
 	return ele->e;
 }
 
-EleStack* EleStack_copy(const EleStack *ele){
+EleStack* EleStack_copy(const EleStack *ele) {
 	int aux = 0;
+	
 	EleStack *ele2;
 
 	ele2 = (EleStack*)calloc(1,sizeof(EleStack));
 
 	aux = *(ele->e);
+
+	ele2->e = (int*)calloc(1, sizeof(int));
 	*(ele2->e) = aux;
 
 	return ele2;
@@ -88,7 +91,7 @@ int EleStack_print(FILE *f, const EleStack *ele){
 		return -1;
 	}
 
-	num_chars = fprintf(f, "%d\n", *(ele->e));
+	num_chars = fprintf(f, "%d", *(ele->e));
 
 	return num_chars;
 

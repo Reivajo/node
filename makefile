@@ -27,8 +27,7 @@
 
 ########################################################
 CC=gcc
-CFLAGS= -g -Wall -ansi -pedantic
-EJS = p1_e1 p1_e2 p1_e3 p2_e1 p2_e2
+CFLAGS= -g -Wall -pedantic
 ########################################################
 OBJECTSP1E1 = p1_e1.o node.o
 OBJECTSP1E2 = p1_e2.o graph.o node.o
@@ -37,7 +36,7 @@ OBJECTSP2E1 = p2_e1.o graph.o node.o stack_elestack.o elestack.o
 OBJECTSP2E2 = p2_e2.o graph.o node.o stack_elestack.o elestack.o
 ########################################################
 
-EXEC = p1_e1 p1_e2 p1_e3 p2_e1 p2_e2
+EXEC = p1_e1 p1_e2 p1_e3 p2_e2
 EXECOBJ := $(EXEC:%=%.o)
 all: $(EXEC)
 
@@ -83,7 +82,7 @@ elestack.o: elestack.c elestack.h
 	$(CC) $(CFLAGS) -c elestack.c
 
 clean:
-	rm -rf *.o $(EJS)
+	rm -rf *.o $(EXEC)
 
 runv:
 	@echo ">>>>>>Running p1_e1 with valgrind"

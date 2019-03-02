@@ -5,7 +5,7 @@
 # define MAXSTACK 1024
 struct _Stack {
  int top;
- EleStack * item[MAXSTACK];
+ EleStack **item;
 };
 
 Stack * stack_ini() {
@@ -14,14 +14,22 @@ Stack * stack_ini() {
 
 	s=(Stack *)calloc(1,sizeof(Stack));
 
-	s->item = (EleStack*)calloc(MAXSTACK, sizeof(EleStack));
 
 	if(s==NULL){
 		return NULL;
 	}
+
+	s->item = (EleStack**)calloc(MAXSTACK, sizeof(EleStack*));
+
+	if(s->item==NULL) {
+		free(s);
+		return NULL;
+	}
+
 	for (i=0; i<MAXSTACK; i++) {
 		s->item[i] = NULL;
 	}
+
 	s->top = -1;
 	return s;
 }
@@ -29,29 +37,35 @@ Stack * stack_ini() {
 void stack_destroy(Stack *s){
 
 	int i;
-	if(s !=NULL){
-	for(i=0;i<s->top;i++){
-		EleStack_destroy(s->item[i]);
-		s->item[i]=NULL;
+	if(s !=NULL) {
+		for(i=0;i<s->top;i++) {
+			EleStack_destroy(s->item[i]);
+			s->item[i]=NULL;
+		}
+		if(s->item)
+			free(s->item);
+
+		free(s);
 	}
-	free(s);
-}
 
 }
 
 Status stack_push(Stack *s, const EleStack *ele) {
-
 	EleStack *aux = NULL;
 	 if (s == NULL || ele == NULL || stack_isFull(s) == TRUE) {
 		return ERROR;
 	}
+
 	aux = EleStack_copy(ele);
+
 
 	if (aux == NULL) {
 		return ERROR;
 	}
+
 	s->top++;
 	s->item[s->top] = aux;
+	
 	return OK;
 }
 
@@ -113,8 +127,8 @@ int stack_print(FILE *f, const Stack *s){
 }
 
 double avgEleStack(Stack *s) {
-	int sum = 0, i = 0, d, *c;
-	double res, sm, count;
+	int sum = 0, i = 0;
+	double avg;
 
 	EleStack *ele;
 	Stack *a;
@@ -125,9 +139,7 @@ double avgEleStack(Stack *s) {
 	while(stack_isEmpty(s)==FALSE) {
 		ele = stack_pop(s);
 		stack_push(a, ele);
-		c = EleStack_getInfo(ele);
-		d = *c;
-		sum += d;
+		sum += *EleStack_getInfo(ele);
 		i++;
 	}
 	while(stack_isEmpty(a)==FALSE) {
@@ -136,11 +148,9 @@ double avgEleStack(Stack *s) {
 	}
 	EleStack_destroy(ele);
 	stack_destroy(a);
-	sm = sum;
-	count = i;
-	res = sm/count;
+	avg = sum*1./i;
 
-	return res;
+	return avg;
 
 }
 
