@@ -157,4 +157,3 @@ double avgEleStack(Stack *s) {
 
 
 
-

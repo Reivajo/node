@@ -96,33 +96,3 @@ int EleStack_print(FILE *f, const EleStack *ele){
 	return num_chars;
 
 }
-
-double avgElestack(Stack *s) {
-
-	Stack *s2;
-	EleStack *ele;
-	double avg;
-	int i = 0, sum = 0;
-
-	s2 = stack_ini();
-
-	if(s2==NULL){
-		return -1;
-	}
-
-	while(stack_isEmpty(s)==FALSE) {
-		ele=stack_pop(s);
-		stack_push(s2, ele);
-		sum += *(ele->e);
-		i++;
-	}
-
-	avg = sum/i;
-
-	while(stack_isEmpty(s2)==FALSE) {
-		ele = stack_pop(s2);
-		stack_push(s, ele);
-	} 
-
-	return avg;
-}
