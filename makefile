@@ -34,9 +34,11 @@ OBJECTSP1E2 = p1_e2.o graph.o node.o
 OBJECTSP1E3 = p1_e3.o graph.o node.o
 OBJECTSP2E1 = p2_e1.o graph.o node.o stack_elestack.o elestack.o
 OBJECTSP2E2 = p2_e2.o graph.o node.o stack_elestack.o elestack.o
+OBJECTSP2E31 = p2_e3-node.o graph.o node.o stack_fp.o
+OBJECTSP2E32 = p2_e3-int.o stack_fp.o
 ########################################################
 
-EXEC = p1_e1 p1_e2 p1_e3 p2_e2
+EXEC = p1_e1 p1_e2 p1_e3 p2_e2 p2_e3-node p2_e3-int
 EXECOBJ := $(EXEC:%=%.o)
 all: $(EXEC)
 
@@ -69,6 +71,18 @@ p2_e2: $(OBJECTSP2E2)
 p2_e2.o: p2_e2.c graph.h node.h types.h stack_elestack.h elestack.h 
 	gcc -c $< -o $@
 
+p2_e3-node: $(OBJECTSP2E31)
+	$(CC) $(CFLAGS) -o p2_e3-node $(OBJECTSP2E31)
+
+p2_e3-node.o: p2_e3-node.c node.h types.h stack_fp.h
+	gcc -c $< -o $@
+
+p2_e3-int: $(OBJECTSP2E32)
+	$(CC) $(CFLAGS) -o p2_e3-int $(OBJECTSP2E32)
+
+p2_e3-int.o: p2_e3-int.c types.h stack_fp.h
+	gcc -c $< -o $@
+
 node.o: node.c node.h
 	$(CC) $(CFLAGS) -c node.c
 
@@ -80,6 +94,9 @@ stack_elestack.o: stack_elestack.c stack_elestack.h
 
 elestack.o: elestack.c elestack.h
 	$(CC) $(CFLAGS) -c elestack.c
+
+stack_fp.o: stack_fp.c stack_fp.h
+	$(CC) $(CFLAGS) -c stack_fp.c
 
 clean:
 	rm -rf *.o $(EXEC)

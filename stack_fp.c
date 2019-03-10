@@ -4,7 +4,8 @@
 #include <errno.h>
 #include "stack_fp.h"
 
-#define MAXSTACK 100 #define EMPTY_STACK -1
+#define MAXSTACK 100 
+#define EMPTY_STACK -1
 
 extern int errno;
 
@@ -38,7 +39,7 @@ void stack_destroy(Stack* s) {
 	if (!s) 
 		return;
 	while (s->top != EMPTY_STACK) {
-		s->pf_destroy( s→item[s→top]);
+		s->pf_destroy( s->item[s->top]);
 		s->top --; }
 		free(s);
 }
@@ -99,7 +100,7 @@ Bool stack_isEmpty(const Stack *s) {
 
 }
 
-Bool stack_isFull(const Stack *) {
+Bool stack_isFull(const Stack *s) {
 	if(s == NULL)
 		return TRUE;
 
