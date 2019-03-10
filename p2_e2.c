@@ -6,9 +6,9 @@
 #include "stack_elestack.h"
 
 
-int cleanUp (int ret_value, Node *n, Stack *s){
+int cleanUp (int ret_value, EleStack *ele, Stack *s){
 
-	node_destroy(n);
+	EleStack_destroy(ele);
 	stack_destroy(s);
 
 	return ret_value;

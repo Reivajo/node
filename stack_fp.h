@@ -1,4 +1,6 @@
-#ifndef STACK_H #define STACK_H
+#ifndef STACKFP_H 
+#define STACKFP_H
+
 #include "types.h"
 
 typedef struct _Stack Stack;
