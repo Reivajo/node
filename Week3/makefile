@@ -34,7 +34,7 @@ OBJECTSP1E2 = p1_e2.o graph.o node.o
 OBJECTSP1E3 = p1_e3.o graph.o node.o
 OBJECTSP2E1 = p2_e1.o graph.o node.o stack_elestack.o elestack.o
 OBJECTSP2E2 = p2_e2.o graph.o node.o stack_elestack.o elestack.o
-OBJECTSP2E31 = p2_e3-node.o graph.o node.o stack_fp.o
+OBJECTSP2E31 = p2_e3-node.o stack_fp.o
 OBJECTSP2E32 = p2_e3-int.o stack_fp.o
 ########################################################
 
@@ -74,7 +74,7 @@ p2_e2.o: p2_e2.c graph.h node.h types.h stack_elestack.h elestack.h
 p2_e3-node: $(OBJECTSP2E31)
 	$(CC) $(CFLAGS) -o p2_e3-node $(OBJECTSP2E31)
 
-p2_e3-node.o: p2_e3-node.c node.h types.h stack_fp.h
+p2_e3-node.o: p2_e3-node.c types.h stack_fp.h
 	gcc -c $< -o $@
 
 p2_e3-int: $(OBJECTSP2E32)
