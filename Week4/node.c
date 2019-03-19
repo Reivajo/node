@@ -6,10 +6,10 @@
 
 #include "node.h"
 #include "types.h"
+#include "graph.h"
+#include "stack_fp.h"
 
-#define NAME 64
-
-typedef enum {WHITE, BLACK} Label;
+#define NAME_L 64
 
 struct _Node {
 	char name[100];
@@ -27,8 +27,8 @@ Node *node_ini(){
 	n=(Node*)calloc(1,sizeof(Node));
 	if(!n)
 		fprintf (stderr, "%s\n", strerror(errno));
-	node->etq = WHITE;
-	node->antecessor_id = -1;
+	n->etq = WHITE;
+	n->antecessor_id = -1;
 
 	return n;
 }
@@ -161,73 +161,24 @@ int node_print(FILE *pf, const Node *n){
     	return chars;
 }
 
-Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
-    Stack *s = NULL;
-    Node *v = NULL;     // vertex where the search starts
-    Node *u = NULL;     // vertex extracted from the stack
-    Node *w = NULL;     // neighbour of u
-    int *w_id = NULL;   // array with the w id's  
-    int i, u_id, u_ncon;
-    Bool encontrado = FALSE;
-    
-    if(!g) return NULL;
-    
-    s = stack_ini(node_destroy, node_copy, node_print);   // CdE
-  
-    v = graph_getNode (g, from_id);     
-    stack_push(s, v);                   // CdE
-    
-    while (stack_isEmpty(s) == FALSE && encontrado == FALSE ) {
-        u = stack_pop(s);
-        
-        if (node_getLabel (u) == BLANCO) {
-            u_id = node_getId (u);
-            
-            // actualiza la etiqueta del nodo
-            node_setLabel(u, NEGRO);
-            graph_setNode(g, u);
-            
-            // obtiene los id de los nodos adyacentes
-            w_id =  graph_getConnectionsFrom(g, u_id);
-            u_ncon = node_getConnect(u);
-            
-            // procesa los nodos adyacentes
-            for (i=0; i<u_ncon; i++) {
-                w = graph_getNode(g, w_id[i]);   // CdE
-                if (w_id[i] == to_id) {
-                    node_setAntecesorId (w, u_id); 
-                    graph_setNode(g, w);
-                    encontrado = TRUE;
-                    break;
-                }
-                else if (node_getLabel (w) == BLANCO) {
-                    node_setAntecesorId (w, u_id);
-                    graph_setNode(g, w);
-                    stack_push (s, w);         // CdE  
-                }
-                node_destroy(w);
-                w = NULL;
-            }
-            // libera el array de id vecinos
-            free (w_id);
-            w_id = NULL;
-        }
-        node_destroy(u);
-    }
-    node_destroy(v);
-    stack_destroy(s);
-    return w;
+
+Label node_getLabel(const Node*n){
+    return n->etq;
 }
 
-void graph_printPath (FILE *pf, Graph *g, int id){
-    int index, j;
-    if (id == -1) 
-    	return;
-    
-    // get the antecessor
-    index = find_node_index(g, id);
-    j = node_getAntecesorId(g->nodes[index]);
-    
-    graph_printPath(pf, g, j);
-    fprintf(pf, "%d ", j);
+int node_getAntecesorId(const Node*n){
+    return n->antecessor_id;
 }
+
+Node* node_setLabel( Node *n, Label l) {
+    if (!n) return NULL;
+    n->etq = l;
+    return n;
+}
+
+Node* node_setAntecesorId(Node *n, int id) {
+    if (!n) return NULL;
+    n->antecessor_id = id;
+    return n;
+}
+

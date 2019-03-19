@@ -2,6 +2,11 @@
 #define NODE_H_
 #include <stdio.h>
 #include "types.h"
+
+typedef enum {
+    WHITE, BLACK
+} Label;
+
 typedef struct _Node Node;
 /* Initialize a node, reserving memory and returning the initialized node if
  * it was done correctly, otherwise return NULL and print the corresponding

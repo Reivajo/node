@@ -40,7 +40,8 @@ void stack_destroy(Stack* s) {
 		return;
 	while (s->top != EMPTY_STACK) {
 		s->pf_destroy( s->item[s->top]);
-		s->top --; }
+		s->top --;
+	}
 		free(s);
 }
 
