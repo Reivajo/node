@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include "graph.h"
+#include "stack_fp.h"
 #define MAX_NUM_NODES 4096
 #define MAX_LINE 256
 
@@ -148,8 +149,8 @@ Status graph_setNode (Graph *g, const Node *n){
 	node_setName(g->node[index], node_getName(n));
 	node_setConnect(g->node[index], node_getConnect(n));
 
-	node_setLabel(g->nodes[index], node_getLabel(n));
-    node_setAntecesorId(g->nodes[index], node_getAntecesorId(n));
+	node_setLabel(g->node[index], node_getLabel(n));
+    node_setAntecesorId(g->node[index], node_getAntecesorId(n));
 
 	return OK;
 }
@@ -222,12 +223,13 @@ int* graph_getConnectionsFrom(const Graph * g, const int fromId){
 
 
 int graph_print(FILE *pf, const Graph * g){
+   int i,j,num_char=0;
+   int *array;
+   
    if(!pf || !g){
      fprintf(stderr,"%s\n",strerror(errno));
          return -1;
    }
-   int i,j,num_char=0;
-   int *array;
    for(i=0;i<g->num_nodes;i++){
      num_char+=node_print(pf, g->node[i]);
      for(j=0;j>node_getConnect(g->node[i]);j++){
@@ -282,3 +284,74 @@ Status graph_readFromFile (FILE *fin, Graph *g) {
 	node_destroy (n);      
 	return flag; 
 }
+
+
+Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
+    Stack *s = NULL;
+    Node *v = NULL;     
+    Node *u = NULL;     
+    Node *w = NULL;     
+    int *w_id = NULL;
+    int i, u_id, u_ncon;
+    Bool found = FALSE;
+    
+    if(!g) return NULL;
+    
+    s = stack_ini(node_destroy, node_copy, node_print); 
+  
+    v = graph_getNode (g, from_id);     
+    stack_push(s, v);                   
+    
+    while (stack_isEmpty(s) == FALSE && found == FALSE ) {
+        u = stack_pop(s);
+        
+        if (node_getLabel (u) == WHITE) {
+            u_id = node_getId (u);
+            
+
+            node_setLabel(u, BLACK);
+            graph_setNode(g, u);
+            
+            w_id =  graph_getConnectionsFrom(g, u_id);
+            u_ncon = node_getConnect(u);
+            
+            for (i=0; i<u_ncon; i++) {
+                w = graph_getNode(g, w_id[i]);
+                if (w_id[i] == to_id) {
+                    node_setAntecesorId (w, u_id); 
+                    graph_setNode(g, w);
+                    found = TRUE;
+                    break;
+                }
+                else if (node_getLabel (w) == WHITE) {
+                    node_setAntecesorId (w, u_id);
+                    graph_setNode(g, w);
+                    stack_push (s, w);   
+                }
+                node_destroy(w);
+                w = NULL;
+            }
+
+            free (w_id);
+            w_id = NULL;
+        }
+        node_destroy(u);
+    }
+    node_destroy(v);
+    stack_destroy(s);
+    return w;
+}
+
+void graph_printPath (FILE *pf, Graph *g, int id){
+    int index, j;
+    if (id == -1) 
+    	return;
+    
+
+    index = find_node_index(g, id);
+    j = node_getAntecesorId(g->node[index]);
+    
+    graph_printPath(pf, g, j);
+    fprintf(pf, "%d ", j);
+}
+
