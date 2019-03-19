@@ -2,10 +2,9 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+
 #include "types.h"
-#include "node.h"
 #include "stack_fp.h"
-#include "elestack-fp.h"
 
 int print_int(FILE *f, const void* a) {
 	int sum = 0;
