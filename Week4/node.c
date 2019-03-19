@@ -221,7 +221,8 @@ Node *graph_findDeepSearch (Graph *g, int from_id, int to_id){
 
 void graph_printPath (FILE *pf, Graph *g, int id){
     int index, j;
-    if (id == -1) return;
+    if (id == -1) 
+    	return;
     
     // get the antecessor
     index = find_node_index(g, id);

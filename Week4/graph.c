@@ -148,6 +148,9 @@ Status graph_setNode (Graph *g, const Node *n){
 	node_setName(g->node[index], node_getName(n));
 	node_setConnect(g->node[index], node_getConnect(n));
 
+	node_setLabel(g->nodes[index], node_getLabel(n));
+    node_setAntecesorId(g->nodes[index], node_getAntecesorId(n));
+
 	return OK;
 }
 
