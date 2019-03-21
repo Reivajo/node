@@ -1,120 +1,113 @@
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
 #include "node.h"
-#include "types.h"
-#include "graph.h"
-#include "stack_fp.h"
 
 #define NAME_L 64
 
+extern int errno ;
+
 struct _Node {
-	char name[100];
-	int id;
-	int nConnect;
-	Label etq;
-	int antecessor_id;
+    char name[NAME_L];  
+    int id;             
+    int nConnect;      
+    Label etq;     
+    int antecesor_id;
 };
 
-/* Initialize a node, reserving memory and returning the initialized node if
-* it was done correctly, otherwise return NULL and print the corresponding
-* string to the error in stderror */
-Node *node_ini(){
-	Node *n;
-	n=(Node*)calloc(1,sizeof(Node));
+Node * node_ini() {
+    Node *n = NULL;
+    
+    pn = (Node *) malloc(sizeof(Node));
+    if (!n) {
+        fprintf (stderr, "%s\n", strerror(errno));
+        return NULL;
+    }
+    node_setId (n, -1);
+    node_setName (n, "");
+    node_setConnect (n, 0);
+    
+    node_setLabel(n, WHITE);
+    node_setAntecesorId(n, -1);
+    return n;
+}
+
+void node_destroy(void * n) {
+    free(n);
+}
+
+int node_getId(const Node * n){
+    if (!n)
+    	return -1;
+
+    return n->id;
+}
+
+char* node_getName(const Node * n){
+    if (!n)
+        return n->name;
+    
+    return n->name;
+
+int node_getConnect(const Node * n){
+    if (!n)
+        return -1;
+    return n->nConnect;
+}
+
+Label node_getLabel(const Node*n){
 	if(!n)
-		fprintf (stderr, "%s\n", strerror(errno));
-	n->etq = WHITE;
-	n->antecessor_id = -1;
+		return -1;
 
-	return n;
+    return n->etq;
 }
 
-/* Free the dynamic memory reserved for a node */
-void node_destroy(Node *n){
-	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-	free(n);
+int node_getAntecesorId(const Node*n){
+	if(!n)
+		return -1;
+    return n->antecesor_id;
 }
 
-/* Returns the id of a given node, or -1 in case of error */
-int node_getId(const Node *n){
-	int g;
-	
-	if(!n->id){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-	g=n->id;
-        
-	return g;
+Node* node_setLabel( Node *n, Label l) {
+    if (!n) return NULL;
+    n->etq = l;
+    return n;
 }
 
-/* Returns a pointer to the name of a given node, or NULL in case of error */
-char* node_getName(const Node *n){
-	char *t;
-	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-	t =(char *)calloc(100,sizeof(char));
-	if(!t){return NULL;}
-
-	strcpy(t,n->name);
-	return t;
+Node * node_setId(Node * n, const int id){
+    if (n) {
+        n->id = id;
+    }
+    
+    return n;
 }
 
-/* Returns the number of connections of a given node, or -1 in case of error */
-int node_getConnect(const Node *n){
-	
-	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-
-	return n->nConnect;
+Node* node_setAntecesorId(Node *n, int id) {
+    if (!n) return NULL;
+    n->antecesor_id = id;
+    return n;
 }
 
-/* Modifies the id of a given node, returns NULL in case of error */
-Node * node_setId(Node *n, const int id){
-	
-    	n->id=id;
-        
-    	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-
-	return n;
+ 
+Node * node_setName(Node * n, const char* name){
+    if (n) {
+        strncpy(n->name, name, NAME_L);
+    }
+    
+    return n;
 }
 
-/* Modifies the name of a given node, returns NULL in case of error */
-Node * node_setName(Node *n, const char *name){
-	
-	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
+Node * node_setConnect(Node * n, const int cn){
+    if (n) {
+        n->nConnect = cn;
+    }
 
-	strcpy(n->name, name);
-	return n;
+    return n;
 }
 
-
-/* Modifies the number of connections of a given node, returns NULL in case of
-error */
-Node * node_setConnect(Node *n, const int cn){
-	
-	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-
-	n->nConnect=cn;
-	return n;
-}
-
-/* Compares two nodes by the id and then the name.
-* Returns 0 when both nodes have the same id, a smaller number than
-* 0 when n1 <n2 or one greater than 0 otherwise. */
 int node_cmp(const Node *n1, const Node *n2){
 	
 	int ret;
@@ -129,56 +122,35 @@ int node_cmp(const Node *n1, const Node *n2){
 
 }
 
-/* Reserves memory for a node where it copies the data from the node src.
-* Returns the address of the copied node if everything went well, or NULL
-otherwise */
-Node * node_copy(const Node *src){
-	
-	Node *n;
-	n=node_ini();
-	if(!n){
-		fprintf (stderr, "%s\n", strerror(errno));
-	}
-	n->id=src->id;
-	strcpy(n->name, src->name);
-	n->nConnect=src->nConnect;
+void * node_copy(const void * src){
+	Node *out = NULL;
+    Node * origin = NULL;
         
-	return n;
+    if (!src) return NULL;
+        
+    origin = (Node*) src; 
+	out = node_ini();
+	if (out==NULL) return NULL;
+
+	node_setId (out, origin->id);
+	node_setName(out, origin->name);
+    node_setConnect (out, origin->nConnect);
+    node_setLabel (out, origin->etq);
+    node_setAntecesorId (out, origin->antecesor_id);
+        
+	return out;
 }
 
-/* Prints in pf the data of a node with the format: [id, name, nConnect]
-* Returns the number of characters that have been written successfully.
-* Checks if there have been errors in the Output flow, in that case prints
-* an error message in stderror*/
-int node_print(FILE *pf, const Node *n){
-    	
-	int chars=0;
-  	if(!pf){
-		fprintf (stderr, "%s\n", strerror(errno));
-    	};
-    	chars = fprintf(pf, "[%i, %s, %i]", n->id, n->name, n->nConnect);
-    	
-    	return chars;
-}
-
-
-Label node_getLabel(const Node*n){
-    return n->etq;
-}
-
-int node_getAntecesorId(const Node*n){
-    return n->antecessor_id;
-}
-
-Node* node_setLabel( Node *n, Label l) {
-    if (!n) return NULL;
-    n->etq = l;
-    return n;
-}
-
-Node* node_setAntecesorId(Node *n, int id) {
-    if (!n) return NULL;
-    n->antecessor_id = id;
-    return n;
+int node_print(FILE *pf, const void * vn){
+    int num_chars;
+    Node *n = NULL;
+    
+    if (!pf || !vn ) return -1;
+    
+    n = (Node*) vn;
+    num_chars  = fprintf(pf, "[%s, %d, %d]", n->name, n->id, n->nConnect);
+    
+    
+    return num_chars;
 }
 

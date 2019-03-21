@@ -49,4 +49,6 @@ associated with the node and
 int graph_print(FILE *pf, const Graph * g);
 /* Read from the stream fin the graph information */
 Status graph_readFromFile (FILE *fin, Graph *g);
+Node *graph_findDeepSearch (Graph *g, int from, int to);
+void graph_printPath (FILE *pf, Graph *g, int id);
 #endif /* GRAPH_H */

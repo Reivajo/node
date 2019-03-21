@@ -13,7 +13,7 @@ typedef struct _Node Node;
  * string to the error in stderror */
 Node * node_ini();
 /* Free the dynamic memory reserved for a node */
-void node_destroy(Node * n);
+void node_destroy(void * n);
 /* Returns the id of a given node, or -1 in case of error */
 int node_getId(const Node * n);
 /* Returns a pointer to the name of a given node, or NULL in case of error */
@@ -34,12 +34,12 @@ int node_cmp (const Node * n1, const Node * n2);
 /* Reserves memory for a node where it copies the data from the node src.
  * Returns the address of the copied node if everything went well, or NULL
 otherwise */
-Node * node_copy(const Node * src);
+void * node_copy(const void * src);
 /* Prints in pf the data of a node with the format: [id, name, nConnect]
  * Returns the number of characters that have been written successfully.
  * Checks if there have been errors in the Output flow, in that case prints
  * an error message in stderror*/
-int node_print(FILE *pf, const Node * n);
+int node_print(FILE *pf, const void * n);
 
 Label node_getLabel(const Node*n);
 

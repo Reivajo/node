@@ -265,7 +265,6 @@ Status graph_readFromFile (FILE *fin, Graph *g) {
 		node_destroy(n);        
 		return ERROR;    
 	}  
-hola
 
 	/* read connections line by line and insert it */
 
