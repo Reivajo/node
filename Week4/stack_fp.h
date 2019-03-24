@@ -27,4 +27,6 @@ Bool stack_isFull(const Stack *);
 
 int stack_print(FILE*, const Stack*);
 
+int get_NumberOfElements(Stack *s);
+
 #endif

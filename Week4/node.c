@@ -11,7 +11,7 @@
 extern int errno ;
 
 struct _Node {
-    char name[NAME_L];  
+    char* name;
     int id;             
     int nConnect;      
     Label etq;     
@@ -21,7 +21,9 @@ struct _Node {
 Node * node_ini() {
     Node *n = NULL;
     
-    pn = (Node *) malloc(sizeof(Node));
+    n = (Node *) malloc(sizeof(Node));
+    n->name = (char*)malloc(NAME_L*sizeof(char));
+
     if (!n) {
         fprintf (stderr, "%s\n", strerror(errno));
         return NULL;
@@ -51,6 +53,7 @@ char* node_getName(const Node * n){
         return n->name;
     
     return n->name;
+}
 
 int node_getConnect(const Node * n){
     if (!n)
@@ -109,17 +112,15 @@ Node * node_setConnect(Node * n, const int cn){
 }
 
 int node_cmp(const Node *n1, const Node *n2){
-	
 	int ret;
+	
 	ret=strcmp(n1->name, n2->name);
-	if(n1->id==n2->id && ret==0){
-		return 0; 
-	}else if(n1->id>n2->id && ret>0){
-			return 2;
-		}else {
-			return -2;
-			}
-
+	
+	if(n1->id==n2->id && ret==0)
+		return 0;
+	else if(n1->id>n2->id && ret>0)
+		return 2;
+	return -2;
 }
 
 void * node_copy(const void * src){

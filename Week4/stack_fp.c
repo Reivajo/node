@@ -90,7 +90,6 @@ void *stack_top(const Stack *s) {
 	return ele;
 }
 
-
 Bool stack_isEmpty(const Stack *s) {
 	if(s == NULL)
 		return TRUE;
@@ -121,3 +120,11 @@ int stack_print(FILE *f, const Stack *s) {
 	}
 	return n;
 }
+
+int get_NumberOfElements(Stack *s) {
+	if(!s)
+		return -1;
+	
+	return s->top;
+}
+
