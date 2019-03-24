@@ -53,15 +53,18 @@ int main(int argc, char **argv) {
         fprintf(stdout,"\nIt is not possible to find a path.");
     else {
         fprintf(stdout,"\n It is possible to find a path from ");
-    
         in = graph_getNode(g,from_id);
-        node_print(stdout, in);   
+        node_print(stdout, in); 
+    DEBUG();
+
         node_print(stdout, out);
+    DEBUG();
         
         // Prints path
         fprintf(stdout, "\nPath\n");
         graph_printPath(stdout, g, to_id);
     }
+    DEBUG();
     
     mainCleanUp(EXIT_SUCCESS, g, out, in, f);
 

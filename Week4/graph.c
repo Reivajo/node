@@ -283,51 +283,26 @@ int graph_print(FILE *pf, const Graph * g) {
 }
 
 
-Status graph_readFromFile (FILE *fin, Graph *g) {
-    Node *n;
-    char buff[MAX_LINE], name[MAX_LINE];
-    int i, nnodes = 0, id1, id2;
-    Status flag = ERROR;
-   
-    // read number of nodes 
-    if ( fgets (buff, MAX_LINE, fin) != NULL) 
-        if ( sscanf(buff, "%d", &nnodes) != 1) return ERROR;
-    
-    // init buffer_node
-    n = node_ini();
-    if (!n) return ERROR; 
-    
-    // read nodes line by line
-    for(i=0; i < nnodes; i++) {    
-        if ( fgets(buff, MAX_LINE, fin) != NULL) 
-            if (sscanf(buff, "%d %s", &id1, name) != NO_FILE_POS_VALUES) break; 
-        
-        // set node name and node id
-        node_setName (n, name);
-        node_setId (n, id1);
-        
-        // insert node in the graph 
-	if ( graph_insertNode (g, n) == ERROR) break;
-    }
-    
-    // Check if all node have been inserted
-    if (i < nnodes) {
-        node_destroy(n);
-        return ERROR;
-    }
-    
-    // read connections line by line and insert it
-    while ( fgets(buff, MAX_LINE, fin) ) {
-        if ( sscanf(buff, "%d %d", &id1, &id2) == NO_FILE_POS_VALUES )
-            if (graph_insertEdge(g, id1, id2) == ERROR) break; 
-    }
-    
-    // check end of file
-    if (feof(fin)) flag = OK;
-    
-    // clean up, free resources
-    node_destroy (n);  
-    return flag;
+
+int graph_print(FILE *pf, const Graph * g){
+   int i,j,num_char=0;
+   int *array;
+
+   if(!pf || !g){
+     fprintf(stderr,"%s\n",strerror(errno));
+         return -1;
+   }
+
+   for(i=0;i<g->num_nodes;i++){
+     num_char+=node_print(pf, g->node[i]);
+     for(j=0;j<node_getConnect(g->node[i]);j++){
+       array=graph_getConectionsIndex(g,i);
+       num_char+=fprintf(pf," %d ",array[j]+1);
+     }
+     fprintf(pf,"\n");
+   }
+   free (array);
+   return num_char;
 }
 
 
