@@ -38,7 +38,12 @@ Node * node_ini() {
 }
 
 void node_destroy(void * n) {
-    free(n);
+    if(n){
+        Node *aux = (Node*)n;
+        if (aux->name)
+            free(aux->name);
+        free(n);
+    }
 }
 
 int node_getId(const Node * n){
