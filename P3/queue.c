@@ -17,25 +17,24 @@ struct _Queue {
 
 
 Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3) {
-	Queue *q = NULL;
 	int i;
-
-	q = (Queue*)malloc(sizeof(Queue));
-
-	if (!q) {
-		fprintf(stderr, "%s", strerror(errno));
+    Queue* q = NULL;
+    
+    q = (Queue*) malloc(sizeof (Queue));
+    
+    if (q ==NULL)
 	return NULL;
+	
+    for (i = 0; i < MAXQUEUE; i++)
+        q->items[i] = NULL;
 
-	q->front = 0; 
-	q->rear = 0; 
-	q->copy_element_function = f2;
-	q->destroy_element_function = f1;
-	q->print_element_function = f3;
-
-	for (i=0; i< MAXQUEUE; i++)
-		q->items[i] = NULL;
-	return q;
-	}
+    q->front = q->rear = 0;   
+    
+    q->destroy_element_function = f1;
+    q->copy_element_function = f2;
+    q->print_element_function = f3;
+    
+    return q;
 }
 
 void queue_destroy(Queue *q) {
@@ -75,15 +74,15 @@ Bool queue_isFull(const Queue *q) {
 }
 
 Queue* queue_insert(Queue *q, const void* pElem) {
-	void *aux = NULL;
+	
     if (q == NULL || pElem == NULL || queue_isFull(q) == TRUE) {
       return NULL;
 	}
-    aux = q->copy_element_function(pElem);
+    q->items[q->rear] = q->copy_element_function(pElem);
     
-    if (aux == NULL)
-		return NULL;
-	q->items[q->rear] = aux;
+    if (q->items[q->rear] == NULL){
+	return NULL;
+	}
 	q->rear = (q->rear+1)% MAXQUEUE; 
 	
 	return q;
@@ -112,7 +111,7 @@ int queue_print(FILE *pf, const Queue *q) {
 
 	if(!pf || !q)
 		return -1;
-	for(i = q->front; i < queue_size(q); i++) {
+	for(i = q->front; i!= q ->rear; i++) {
 		num += q->print_element_function(pf, q->items[i]);
 		fprintf(pf, "\n");
 	}
