@@ -16,7 +16,7 @@ struct _Queue {
 };
 
 
-Queue* cl_queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3) {
+Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3) {
 	int i;
     Queue* q = NULL;
     
@@ -37,7 +37,7 @@ Queue* cl_queue_ini(destroy_element_function_type f1, copy_element_function_type
     return q;
 }
 
-void cl_queue_destroy(Queue *q) {
+void queue_destroy(Queue *q) {
 	int i;
     
     if (q != NULL) {
@@ -53,7 +53,7 @@ void cl_queue_destroy(Queue *q) {
 	return;
 }
 
-Bool cl_queue_isEmpty(const Queue *q) {
+Bool queue_isEmpty(const Queue *q) {
 	if (q == NULL) {
       return TRUE;
     }
@@ -63,7 +63,7 @@ Bool cl_queue_isEmpty(const Queue *q) {
     return FALSE;
 }
 
-Bool cl_queue_isFull(const Queue *q) {
+Bool queue_isFull(const Queue *q) {
 	if (q == NULL)
 	     return TRUE;
 
@@ -73,7 +73,7 @@ Bool cl_queue_isFull(const Queue *q) {
 	return FALSE;
 }
 
-Queue* cl_queue_insert(Queue *q, const void* pElem) {
+Queue* queue_insert(Queue *q, const void* pElem) {
 	
     if (q == NULL || pElem == NULL || queue_isFull(q) == TRUE) {
       return NULL;
@@ -88,7 +88,7 @@ Queue* cl_queue_insert(Queue *q, const void* pElem) {
 	return q;
 }
 
-void * cl_queue_extract(Queue *q) {
+void * queue_extract(Queue *q) {
 	void *e = NULL;
 	if (q == NULL || queue_isEmpty(q) == TRUE)
 	    return NULL;
@@ -100,13 +100,13 @@ void * cl_queue_extract(Queue *q) {
 	return e;
 }
 
-int cl_queue_size(const Queue *q) {
+int queue_size(const Queue *q) {
 	if (q == NULL)
 		return -1;
 	return (q->rear - q->front + MAXQUEUE) % MAXQUEUE;
 }
 
-int cl_queue_print(FILE *pf, const Queue *q) {
+int queue_print(FILE *pf, const Queue *q) {
 	int num = 0, i = 0;
 
 	if(!pf || !q)
