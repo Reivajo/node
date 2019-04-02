@@ -12,11 +12,12 @@ struct _Queue {
 	int rear;
 	destroy_element_function_type destroy_element_function; 
 	copy_element_function_type copy_element_function; 
-	print_element_function_type print_element_function;
+	print_element_function_type print_element_function
+	cmp_element_function_type cmp_element_function;
 };
 
 
-Queue* cl_queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3) {
+Queue* cl_queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3, cmp_element_function_type f4) {
 	int i;
     Queue* q = NULL;
     
@@ -33,6 +34,7 @@ Queue* cl_queue_ini(destroy_element_function_type f1, copy_element_function_type
     q->destroy_element_function = f1;
     q->copy_element_function = f2;
     q->print_element_function = f3;
+    cmp_element_function = f4;
     
     return q;
 }
