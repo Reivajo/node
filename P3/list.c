@@ -73,20 +73,20 @@ void list_free(List *list) {
 }
 void list_recFree(NodeList *pn) {
 	if (pn == NULL) {
-		return;
+		retur
 	}
 	list_recFree(pn->next);
 	list->destroy_element_function(pn);
 }
 
 Bool list_isEmpty(const List *list) {
-if (list == NULL) {
-return TRUE;
-}
-if (list->last == NULL) {
-return TRUE;
-}
-return FALSE;
+	if (list == NULL) {
+		return TRUE;
+	}
+	if (list->last == NULL) {
+		return TRUE;
+	}
+	return FALSE;
 }
 
 const void* list_get (const List* list, int index){
@@ -105,6 +105,47 @@ const void* list_get (const List* list, int index){
 }
 
 Status list_insertInOrder (List *list, const void *pelem){
+	NodeList *nl=NULL, *pn=NULL;
+
+	if(!list || !pelem){
+		return ERROR;
+	}
+
+	nl=NodeList_new();
+
+	if(nl==NULL){
+		return ERROR;
+	}
+
+	nl->info=list->copy_element_function(pelem);
+
+	if(list_isEmpty(list)){
+		pn->next=pn;
+		list->last=pn;
+		return OK;
+	}
+
+	pn=list->last->next;
+
+	if(list->cmp_element_function(pelem, pn->info) < 0){
+		NodeList_free(nl,list->destroy_element_function);
+
+		return list_insertFirst(list,pelem);
+	}
+
+	
+	while(list->cmp_element_function(pelem,pn->next->info)>0){
+		pn=pn->next;
+
+		if(pn==list->last){
+			NodeList_free(nl,list->destroy_element_function);
+			return list_insertLast(list,pelem);
+		}
+	}
+	nl->next=pn->next;
+	pn->next= nl;
+
+	return OK;
 
 }
 
@@ -119,7 +160,7 @@ int list_size (const List* list){
 		pn = pn->next;
 		counter++;
 	}
-	return counter;
+	return counter+1;
 }
 
 
@@ -132,7 +173,8 @@ Status list_insertFirst (List* list, const void *pelem){
 	if (pn->info == NULL) {
 		NodeList_free(pn);
 		return ERR;
-	}if (cl_isEmpty() == TRUE) {
+	}
+	if (cl_isEmpty() == TRUE) {
 		pn->next = pn;
 		list->last = pn;
 	} else {
@@ -151,7 +193,8 @@ Status list_insertLast (List* list, const void *pelem){
 	if (pn->info == NULL) {
 		NodeList_free(pn);
 		return ERR;
-	}if (list_isEmpty(list) == TRUE) {
+	}
+	if (list_isEmpty(list) == TRUE) {
 		pn->next = pn;
 		list->last = pn
 	} else {
@@ -205,20 +248,20 @@ void * list_extractLast (List* list){
 	return pe;
 }
 
-int list_print(FILE *fd, const List* pl){
-    NodeList *nl;
-    int counter = 0;
-    
-    if (!pl || list_isEmpty(pl) == TRUE){
-        return 0;
-    }
-    /* Al menos hay 1 elemento. Con el do-while al principio se sitúa en el primero de la lista*/
-    nl = pl->last;
-    do{
-        nl = nl->next;
-        count += pl->print_element_function(fd, nl->info);
-        count += fprintf(fd, "\n");
-    } while (nl!= pl->last);  /*el último también se imprime por el orden entre avanzar e imprimir*/
-        
-    return count;
+int list_print (FILE *fd, const List* list){
+	NodeList *nl;
+	int counter = 0;
+
+	if (!list || list_isEmpty(list) == TRUE){
+		return -1;
+	}
+
+	nl = list->last;
+	do{
+		nl = nl->next;
+		counter += pl->print_element_function(fd, nl->info);
+		counter += fprintf(fd, "\n");
+	}while (nl!= pl->last);
+
+	return counter;
 }
