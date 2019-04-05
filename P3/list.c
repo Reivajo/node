@@ -73,7 +73,7 @@ void list_free(List *list) {
 }
 void list_recFree(NodeList *pn) {
 	if (pn == NULL) {
-		retur
+		return;
 	}
 	list_recFree(pn->next);
 	list->destroy_element_function(pn);
@@ -92,12 +92,12 @@ Bool list_isEmpty(const List *list) {
 const void* list_get (const List* list, int index){
 	NodeList *pn=NULL;
 	int counter=1;
-	if(!List || index<1){
-		return;
+	if(!list || index<1){
+		return NULL;
 	}
-	list->last->next=pn;
+	pn=list->last->next;
 	while(counter!=index){
-		pn->next=pn;
+		pn=pn->next;
 		counter++;
 	}
 	return pn->info;
