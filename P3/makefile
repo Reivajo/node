@@ -1,7 +1,7 @@
 CFLAGS = -Wall
 SRC := $(wildcard *.c)
 OBJ := $(patsubst %.c,%.o,$(SRC))
-EXEC = p3_e1
+EXEC = p3_e2
 TARNAME := $(EXEC:%=%.tgz)
 
 # $< primero despues de :
