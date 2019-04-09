@@ -31,7 +31,7 @@ void* int_copy (const void* num){
     i = (int*)malloc(sizeof(int));
 
     if (i == NULL){
-	return NULL;
+	   return NULL;
 	}
 
     *(i) = *((int*)num);

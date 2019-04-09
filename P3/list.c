@@ -6,12 +6,13 @@
 #include "list.h"
 
 
-typedef struct _NodeListList { /* EdD privada, necesaria para imlistementar lista */
+typedef struct _NodeList { /* EdD privada, necesaria para imlistementar lista */
 void* info;
-struct _NodeListList *next;
-} NodeListList; /* Tipo NodeListList privado */
+struct _NodeList *next;
+} NodeList; /* Tipo NodeListList privado */
+
 struct _List {
- NodeListList *last; /*La LEC apunta al último nodo y el último al primero*/
+ NodeList *last; /*La LEC apunta al último nodo y el último al primero*/
 	destroy_element_function_type destroy_element_function;
 	copy_element_function_type copy_element_function;
 	print_element_function_type print_element_function;
@@ -19,6 +20,9 @@ struct _List {
 };
 
 /********************PRIVATE FUNCTIONS**************/
+void list_recFree(NodeList *pn);
+
+
 NodeList *NodeList_new(){
 	NodeList *nl=NULL;
 
@@ -72,6 +76,7 @@ void list_free(List *list) {
 	free(list);
 }
 void list_recFree(NodeList *pn) {
+	List* list = NULL;
 	if (pn == NULL) {
 		return;
 	}
