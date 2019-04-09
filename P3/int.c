@@ -6,9 +6,9 @@
 void* int_ini(){
 	int *i=NULL;
 
-	num = (int*)malloc(sizeof(int));
+	i = (int*)malloc(sizeof(int));
 
-	if(num==NULL){
+	if(i==NULL){
 		return NULL;
 	}
 
@@ -43,7 +43,7 @@ int int_print(FILE *file, const void* num){
     	return -1;
     }
 
-	return fprintf(f, "[%d]", *((int*)num));
+	return fprintf(file, "[%d]", *((int*)num));
 }
 
 int int_cmp (const void* num1, const void* num2){

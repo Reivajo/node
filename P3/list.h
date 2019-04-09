@@ -1,9 +1,12 @@
-#ifndef
+#ifndef LIST_H
+#define LIST_H
+
+#include "types.h"
 typedef struct _List List;
 /* Types of function pointers supported by the list. Note: they could be in elem_functions.h and include it here */ 
 typedef void (*destroy_element_function_type)(void*);
 typedef void(*copy_element_function_type)(const void*);
-typedef int (*print_element _function_type)(FILE *, const void*);
+typedef int (*print_element_function_type)(FILE *, const void*);
 typedef int (*cmp_element_function_type)(const void*, const void*);
 /* The last type of functions, cmp, will be those that serve to compare two elements, returning a positive, negative or zero number according to the first argument greater, less or equal to the second */
 /* Initializes the list by saving memory and initialize all its elements.*/
@@ -29,3 +32,5 @@ const void* list_get (const List* list, int index);
 int list_size (const List* list);
 /* Prints a list returning the number of written characters. */ 
 int list_print (FILE *fd, const List* list);
+
+#endif
