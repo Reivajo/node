@@ -68,20 +68,17 @@ List *list_new(destroy_element_function_type f1,copy_element_function_type f2,pr
 	return list;
 }
 
-void list_free(List *list) {
-	if (list == NULL) {
-		return;
-	}
-	list_recFree(list->last);
-	free(list);
-}
-void list_recFree(NodeList *pn) {
-	List* list = NULL;
-	if (pn == NULL) {
-		return;
-	}
-	list_recFree(pn->next);
-	list->destroy_element_function(pn);
+void list_destroy(List* list){
+    void *n;
+    
+    if (!pl)
+        return;
+    
+    while (list_isEmpty(pl)==FALSE){  
+        n = list_extractFirst(list);
+        pl->destroy_element_function(n);
+    }
+    free(list);
 }
 
 Bool list_isEmpty(const List *list) {
@@ -243,7 +240,7 @@ void * list_extractLast (List* list){
 	}
 	pn = list->last;
 	while (pn->next != list->last) {
-		pn = pn->next;
+		pn=pn->next;
 	}
 	pe = list->last->info;
 	list->last->info = NULL;
