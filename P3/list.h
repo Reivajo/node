@@ -5,12 +5,12 @@
 typedef struct _List List;
 /* Types of function pointers supported by the list. Note: they could be in elem_functions.h and include it here */ 
 typedef void (*destroy_element_function_type)(void*);
-typedef void(*copy_element_function_type)(const void*);
+typedef void (*(*copy_element_function_type)(const void*));
 typedef int (*print_element_function_type)(FILE *, const void*);
 typedef int (*cmp_element_function_type)(const void*, const void*);
 /* The last type of functions, cmp, will be those that serve to compare two elements, returning a positive, negative or zero number according to the first argument greater, less or equal to the second */
 /* Initializes the list by saving memory and initialize all its elements.*/
-List* list_ini (destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3,
+List* list_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3,
 cmp_element_function_type f4);
 /* Frees the list, freeing all its elements. */ 
 void list_destroy (List* list);

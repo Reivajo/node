@@ -37,16 +37,16 @@ NodeList *NodeList_new(){
 	return nl;
 }
 
-void NodeList_free(NodeList *nl){
+void NodeList_free(NodeList *nl, destroy_element_function_type f) {
 
 	if(nl==NULL){
 		return;
 	}
 
-	nl->next=NULL;
-	nl->info=NULL;
-
-	free(nl);
+	if(nl->info != NULL) {
+		f(nl->info);
+		free(nl);
+	}
 
 	return;
 }
@@ -54,7 +54,7 @@ void NodeList_free(NodeList *nl){
 /*******************************************************/
 
 
-List *list_new(destroy_element_function_type f1,copy_element_function_type f2,print_element_function_type f3,cmp_element_function_type f4) {
+List *list_ini(destroy_element_function_type f1,copy_element_function_type f2,print_element_function_type f3,cmp_element_function_type f4) {
 	List *list = NULL;
 	list = (List *)malloc(sizeof(List));
 	if (list == NULL) {
@@ -71,12 +71,12 @@ List *list_new(destroy_element_function_type f1,copy_element_function_type f2,pr
 void list_destroy(List* list){
     void *n;
     
-    if (!pl)
+    if (!list)
         return;
     
-    while (list_isEmpty(pl)==FALSE){  
+    while (list_isEmpty(list)==FALSE){  
         n = list_extractFirst(list);
-        pl->destroy_element_function(n);
+        list->destroy_element_function(n);
     }
     free(list);
 }
@@ -118,14 +118,21 @@ Status list_insertInOrder (List *list, const void *pelem){
 	if(nl==NULL){
 		return ERROR;
 	}
+	DEBUG();
 
 	nl->info=list->copy_element_function(pelem);
+	DEBUG();
 
 	if(list_isEmpty(list)){
+	DEBUG();
+		
 		pn->next=pn;
+	DEBUG();
 		list->last=pn;
+	DEBUG();
 		return OK;
 	}
+	DEBUG();
 
 	pn=list->last->next;
 
@@ -168,15 +175,16 @@ int list_size (const List* list){
 
 Status list_insertFirst (List* list, const void *pelem){
 	NodeList *pn = NULL;
-	if (list == NULL || pelem == NULL) return ERR;
+	if (list == NULL || pelem == NULL) 
+		return ERROR;
 	pn = NodeList_new();
-	if (pn == NULL) return ERR;
+	if (pn == NULL) return ERROR;
 	pn->info = list->copy_element_function(pelem);
 	if (pn->info == NULL) {
-		NodeList_free(pn);
-		return ERR;
+		NodeList_free(pn, list->destroy_element_function);
+		return ERROR;
 	}
-	if (cl_isEmpty() == TRUE) {
+	if (list_isEmpty(list) == TRUE) {
 		pn->next = pn;
 		list->last = pn;
 	} else {
@@ -187,18 +195,19 @@ Status list_insertFirst (List* list, const void *pelem){
 }
 
 Status list_insertLast (List* list, const void *pelem){
-	NodeList *pn = NULL, *qn = NULL;
-	if (list == NULL || pelem == NULL) return ERR;
+	NodeList *pn = NULL;
+	if (list == NULL || pelem == NULL) 
+		return ERROR;
 	pn = NodeList_new();
-	if (pn == NULL) return ERR;
+	if (pn == NULL) return ERROR;
 	pn->info = list->copy_element_function(pelem);
 	if (pn->info == NULL) {
-		NodeList_free(pn);
-		return ERR;
+		NodeList_free(pn, list->destroy_element_function);
+		return ERROR;
 	}
 	if (list_isEmpty(list) == TRUE) {
 		pn->next = pn;
-		list->last = pn
+		list->last = pn;
 	} else {
 		pn->next = list->last->next;
 		list->last->next = pn;
@@ -218,10 +227,10 @@ void * list_extractFirst (List* list){
 	pn->info = NULL;
 	if (list->last->next == list->last) {
 		list->last = NULL;
-		NodeList_free(pn);
+		NodeList_free(pn, list->destroy_element_function);
 	} else {
 		list->last->next = pn->next;
-		NodeList_free(pn);
+		NodeList_free(pn, list->destroy_element_function);
 	}
 	return pe;
 }
@@ -234,7 +243,7 @@ void * list_extractLast (List* list){
 	if (list->last->next == list->last) {
 		pe = list->last->info;
 		list->last->info = NULL;
-		NodeList_free(list->last);
+		NodeList_free(list->last, list->destroy_element_function);
 		list->last = NULL;
 		return pe;
 	}
@@ -245,7 +254,7 @@ void * list_extractLast (List* list){
 	pe = list->last->info;
 	list->last->info = NULL;
 	pn->next = list->last->next;
-	NodeList_free(list->last);
+	NodeList_free(list->last, list->destroy_element_function);
 	list->last = pn;
 	return pe;
 }
@@ -261,9 +270,9 @@ int list_print (FILE *fd, const List* list){
 	nl = list->last;
 	do{
 		nl = nl->next;
-		counter += pl->print_element_function(fd, nl->info);
+		counter += list->print_element_function(fd, nl->info);
 		counter += fprintf(fd, "\n");
-	}while (nl!= pl->last);
+	}while (nl!= list->last);
 
 	return counter;
 }
