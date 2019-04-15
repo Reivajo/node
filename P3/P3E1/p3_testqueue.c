@@ -1,7 +1,4 @@
-/*
- * File:   p3_testqueue.c
- * Author:  PROG2 Teachers
- */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
