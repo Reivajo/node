@@ -60,3 +60,11 @@ void tree_free(Tree *pa){
 	free(pa);
 	}
 }
+
+
+Bool tree_find(Tree *pa, const void *pe) {
+	if(tree_isEmpty(pa) == TRUE)
+		return FALSE;
+
+
+}

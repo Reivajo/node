@@ -17,9 +17,9 @@ void tree_free(Tree *pa);
 Status tree_insert(Tree *pa, const void *po);
 /*Writes in the file f the path of a tree in previous order without modifying it. */
 Status tree_preOrder(FILE *f, const Tree *pa);
-/ * Writes in the file f the path of a tree in medium order without modifying it */
+/* Writes in the file f the path of a tree in medium order without modifying it */
 Status tree_inOrder(FILE *f, const Tree *pa);
-/ * Writes in file f the path of a tree in post order without modifying it. */
+/* Writes in file f the path of a tree in post order without modifying it. */
 Status tree_postOrder(FILE *f, const Tree *pa);
 /* Computes the depth of a tree. An empty tree has depth -1. */
 int tree_depth(const Tree *pa);
