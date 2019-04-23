@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "queue.h"
+#include "queuel.h"
 #include "list.h"
 
-#define MAXQUEUE 50
 
 extern int errno;
 
@@ -18,7 +17,6 @@ struct _Queue {
 
 
 Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2, print_element_function_type f3){
-    int i;
     Queue* q = NULL;
     
     q = (Queue*) malloc(sizeof (Queue));
@@ -26,7 +24,7 @@ Queue* queue_ini(destroy_element_function_type f1, copy_element_function_type f2
     if (q ==NULL)
 	return NULL;
 	
-    q->plist = list_ini(f1, f2, f3, NULL);
+    q->list = list_ini(f1, f2, f3, NULL);
     
     if (!q->list) {
 	  free(q);
@@ -98,10 +96,13 @@ void * queue_extract(Queue *q) {
 int queue_size(const Queue *q) {
 	
 	int size=0;
+	DEBUG();
 	if(q==NULL){
 		return -1;
 	}
+	DEBUG();
 	size=list_size(q->list);
+	DEBUG();
 
 	return size;
 
@@ -114,7 +115,7 @@ int queue_print(FILE *pf, const Queue *q) {
 		return -1;
 	}
 
-	chars=list_print(q->list);
+	chars=list_print(pf, q->list);
 
 	return chars;
 

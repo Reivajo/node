@@ -15,12 +15,13 @@ void mainCleanUp (Queue *q1, Queue *q2, Queue *q3, Node *pn, FILE *pf) {
 	if (pf) fclose (pf);
 }
 int main(int argc, char** argv) {
-	FILE *pf=NULL;
+	FILE *pf= NULL;
 	Queue *q1=NULL, *q2=NULL, *q3=NULL;
 	Node *pn=NULL;
 	int id, i, npoints, middle;
 	char name[MAX];
 	char s[MAX];
+
 	if (argc < 2) {
 		fprintf(stderr, " Error: Enter as argument the name of the file with the nodes.\n"); return EXIT_FAILURE;
 	}
@@ -80,7 +81,9 @@ int main(int argc, char** argv) {
 		printf("\n");
 	}
 	node_destroy(pn); pn = NULL;
-	printf("\n<<< Passing the first half of Queue 1 to Queue 2\n"); npoints = queue_size(q1);
+
+	printf("\n<<< Passing the first half of Queue 1 to Queue 2\n"); 
+	npoints = queue_size(q1);
 	middle = npoints/2;
 	for(i=0; i< middle; i++){
 		pn = queue_extract(q1);
