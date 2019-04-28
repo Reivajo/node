@@ -21,7 +21,7 @@ struct _Tree {
  cmp_element_function_type cmp_element_function;
 };
 
-
+/*Initialices a tree*/
 Tree* tree_ini(destroy_element_function_type f1,copy_element_function_type f2,print_element_function_type f3, cmp_element_function_type f4) {
 	Tree *b = NULL;
 		b = (Tree *)malloc(sizeof(Tree));
@@ -38,6 +38,7 @@ Tree* tree_ini(destroy_element_function_type f1,copy_element_function_type f2,pr
 return b;
 }
 
+/*Returns 1 if the tree is Empty, 0 otherwise*/
 Bool tree_isEmpty( const Tree *pa){
 
 	if (pa == NULL) {
@@ -50,15 +51,27 @@ Bool tree_isEmpty( const Tree *pa){
 return FALSE;
 }
 
-void bt_node_free(NodeBT *pn, destroy_element_function_type f1){
 
-	if (pa != NULL) {
-		if (INFO(pn) != NULL) {
-		element_free(INFO(pa));
-		}
-	free(pa);
+void tree_free(Tree *pa){
+	if (!pa){
+		return;
 	}
+	tree_freeRec(pa->root, pa->destroy_element_function);
+	free(pa);
+	pa = NULL;
+	return;
 }
+
+void tree_freeRec(NodeBT* pn, destroy_element_function_type desfun){
+	if (!pn){
+		return;
+	}
+	tree_freeRec(LEFT(pn), desfun);
+	tree_freeRec(RIGHT(pn), desfun);
+	bt_node_free(pn, desfun);
+	return;
+}
+
 
 Status tree_insert(Tree *pa, const void *po){
 	if (pa == NULL || po == NULL) {
@@ -67,29 +80,180 @@ Status tree_insert(Tree *pa, const void *po){
 return bst_recInsert(&ROOT(pa), po, pa->copy_element_function, pa->cmp_element_function );
 }
 
+
 status bst_recInsert(NodeBT **ppn, const void *e,copy_element_function_type fcpy, cmp_element_function_type fcmp) {
 	
 	int cmp;
 		if (*ppn == NULL) {
 			*ppn = bt_node_new();
+
 		if (*ppn == NULL) return ERROR;
-			INFO(*ppn) = fcpy(e);
+
+		INFO(*ppn) = fcpy(e);
+
 		if (INFO(*ppn) == NULL) {
 		bt_node_free(*ppn);
 	return ERROR;
 	}
 	return OK;
 	}
-		cmp = fcmp(INFO((*ppn)),e);
+		cmp = fcmp(e,INFO((*ppn)));
+		if(cmp==0){
+			return ERROR;
+		}
 		if (cmp < 0) {
 			return bst_recInsert(&LEFT(*ppn), e);
 		} else if (cmp > 0) {
 			return bst_recInsert(&RIGHT(*ppn), e);
-		} else {
+		} 
+	return ERROR;
+	
+}
+
+/*Traverses a tree in pre-order*/
+Status tree_preOrder(FILE *f, const Tree *pa){
+	if (!f || !pa){
+		return ERROR;
+	}
+
+	return tree_preOrderRec(f, pa->root, pa->print_element_function);
+}
+
+Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
+	if (!f || !pn){
+		return ERROR;
+	}
+	NodeABprint(f, pn, pfun);
+	tree_preOrderRec(f, LEFT(pn), pfun);
+	tree_preOrderRec(f, RIGHT(pn), pfun);
 	return OK;
+}
+
+/*Traverses a tree in in-order*/
+Status tree_inOrder(FILE *f, const Tree *pa){
+	if (!f || !pa){
+		return ERROR;
+	}
+
+	return tree_inOrderRec(f, pa->root, pa->print_element_function);
+}
+
+Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
+	if (!f || !pn){
+		return ERROR;
+	}
+	tree_inOrderRec(f, LEFT(pn), pfun);
+	NodeABprint(f, pn, pfun);
+	tree_inOrderRec(f, RIGHT(pn), pfun);
+	return OK;	
+}
+
+/*Traverses a tree in post-order*/
+Status tree_postOrder(FILE *f, const Tree *pa){
+	if (!f || !pa){
+		return ERROR;
+	}
+
+	return tree_postOrderRec(f, pa->root, pa->print_element_function);
+}
+
+Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun{
+	if (!f || !pn){
+		return ERROR;
+	}
+	tree_postOrderRec(f, LEFT(pn), pfun);
+	tree_postOrderRec(f, RIGHT(pn), pfun);
+	NodeABprint(f, pn, pfun);
+
+	return OK;
+}
+
+/*Calculates the depth of a tree*/
+int tree_depth(const Tree *pa){
+	if (!pa || tree_isEmpty(pa) == TRUE){
+		return -1;
+	}
+
+	return tree_depthRec(ROOT(pa));
+}
+
+int tree_depthRec(NodeBT* pn){
+	int r_depth=0, l_depth=0;
+
+	if (!pn){
+		return -1;
+	}
+	if (RIGHT(pn) == NULL && LEFT(pn) == NULL){
+		return 0;
+	}
+	r_depth = 1 + tree_depthRec(RIGHT(pn));
+	l_depth = 1 + tree_depthRec(LEFT(pn));
+	if (r_depth > l_depth){
+		return r_depth;
+	}
+	return left_depth;
+}
+
+/*Calculates the number of nodes in a tree*/
+int tree_numNodes(const Tree *pa){
+	if (!pa || tree_isEmpty(pa) == TRUE){
+		return 0;
+	}
+	return tree_numNodesRec(ROOT(pa));
+}
+
+int tree_numNodesRec(NodeBT* pn){
+	if (!pn){
+		return 0;
+	}
+	return 1 + tree_numNodesRec(LEFT(pn)) + tree_numNodesRec (RIGHT(pn));
+}
+
+/*finds an element in a tree*/
+Bool tree_find(Tree* pa, const void* pe){
+
+	if(!pa || !pe) return FALSE;
+
+	if(lookAB(pa,pe) != NULL){
+		return TRUE;
+	}else{
+		return FALSE;
 	}
 }
-Status tree_preOrder(FILE *f, const Tree *pa){
 
 
+/***************** NODE_BT Functions ***************/
+
+/*Initialices a node*/
+NodeBT * NodeAB_ini(){
+	NodeBT* pn = NULL;
+
+	pn = malloc(sizeof(NodeBT));
+	if (!pn){
+		return NULL;
+	}
+	LEFT(pn) = RIGHT(pn) = NULL;
+	INFO(pn) = NULL;
+	return pn;
 }
+
+/*destroys a node*/
+void bt_node_free(NodeBT *pn, destroy_element_function_type f1){
+
+	if (pn != NULL) {
+		f1(INFO(pn));
+		free(pn);
+	}
+	return;
+}
+
+/*Prints the info of a given node*/
+int printNodeAB(FILE* pf, const NodeBT *pn, print_element_function_type fprint){
+	if (!pf || !pn){
+		return 0;
+	}
+	return fprint(pf, pn->info);
+}
+
+/**************************************************/
+
