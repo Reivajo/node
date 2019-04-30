@@ -21,6 +21,23 @@ struct _Tree {
  cmp_element_function_type cmp_element_function;
 };
 
+
+/*************************PRIVATE FUNCTIONS*************************/
+
+void tree_freeRec(NodeBT* pn, destroy_element_function_type desfun);
+Status bst_recInsert(NodeBT **ppn, const void *e,copy_element_function_type fcpy, cmp_element_function_type fcmp);
+Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun);
+Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun);
+Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun);
+int tree_depthRec(NodeBT* pn);
+int tree_numNodesRec(NodeBT* pn);
+NodeBT * NodeAB_ini();
+void bt_node_free(NodeBT *pn, destroy_element_function_type f1);
+int printNodeAB(FILE* pf, const NodeBT *pn, print_element_function_type fprint);
+NodeBT * search_nodeAB(const Tree *t, const void* e);
+NodeBT *search_nodeAB_rec(NodeBT *pn,const void *e,cmp_element_function_type fcmp);
+
+/*******************************************************************/
 /*Initialices a tree*/
 Tree* tree_ini(destroy_element_function_type f1,copy_element_function_type f2,print_element_function_type f3, cmp_element_function_type f4) {
 	Tree *b = NULL;
@@ -81,20 +98,18 @@ return bst_recInsert(&ROOT(pa), po, pa->copy_element_function, pa->cmp_element_f
 }
 
 
-status bst_recInsert(NodeBT **ppn, const void *e,copy_element_function_type fcpy, cmp_element_function_type fcmp) {
+Status bst_recInsert(NodeBT **ppn, const void *e,copy_element_function_type fcpy, cmp_element_function_type fcmp) {
 	
 	int cmp;
+	void *info=NULL;
 		if (*ppn == NULL) {
-			*ppn = bt_node_new();
+			*ppn = NodeAB_ini();
 
 		if (*ppn == NULL) return ERROR;
 
-		INFO(*ppn) = fcpy(e);
+		info= fcpy(e);
+		INFO(*ppn) = info;
 
-		if (INFO(*ppn) == NULL) {
-		bt_node_free(*ppn);
-	return ERROR;
-	}
 	return OK;
 	}
 		cmp = fcmp(e,INFO((*ppn)));
@@ -102,9 +117,9 @@ status bst_recInsert(NodeBT **ppn, const void *e,copy_element_function_type fcpy
 			return ERROR;
 		}
 		if (cmp < 0) {
-			return bst_recInsert(&LEFT(*ppn), e);
+			return bst_recInsert(&(LEFT(*ppn)), e,fcpy,fcmp);
 		} else if (cmp > 0) {
-			return bst_recInsert(&RIGHT(*ppn), e);
+			return bst_recInsert(&(RIGHT(*ppn)), e,fcpy,fcmp);
 		} 
 	return ERROR;
 	
@@ -123,7 +138,7 @@ Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
 	if (!f || !pn){
 		return ERROR;
 	}
-	NodeABprint(f, pn, pfun);
+	printNodeAB(f, pn, pfun);
 	tree_preOrderRec(f, LEFT(pn), pfun);
 	tree_preOrderRec(f, RIGHT(pn), pfun);
 	return OK;
@@ -143,7 +158,7 @@ Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
 		return ERROR;
 	}
 	tree_inOrderRec(f, LEFT(pn), pfun);
-	NodeABprint(f, pn, pfun);
+	printNodeAB(f, pn, pfun);
 	tree_inOrderRec(f, RIGHT(pn), pfun);
 	return OK;	
 }
@@ -157,13 +172,13 @@ Status tree_postOrder(FILE *f, const Tree *pa){
 	return tree_postOrderRec(f, pa->root, pa->print_element_function);
 }
 
-Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun{
+Status tree_postOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
 	if (!f || !pn){
 		return ERROR;
 	}
 	tree_postOrderRec(f, LEFT(pn), pfun);
 	tree_postOrderRec(f, RIGHT(pn), pfun);
-	NodeABprint(f, pn, pfun);
+	printNodeAB(f, pn, pfun);
 
 	return OK;
 }
@@ -191,7 +206,7 @@ int tree_depthRec(NodeBT* pn){
 	if (r_depth > l_depth){
 		return r_depth;
 	}
-	return left_depth;
+	return l_depth;
 }
 
 /*Calculates the number of nodes in a tree*/
@@ -214,7 +229,7 @@ Bool tree_find(Tree* pa, const void* pe){
 
 	if(!pa || !pe) return FALSE;
 
-	if(lookAB(pa,pe) != NULL){
+	if(search_nodeAB(pa,pe) != NULL){
 		return TRUE;
 	}else{
 		return FALSE;
@@ -253,6 +268,35 @@ int printNodeAB(FILE* pf, const NodeBT *pn, print_element_function_type fprint){
 		return 0;
 	}
 	return fprint(pf, pn->info);
+}
+
+NodeBT * search_nodeAB(const Tree *t, const void* e){
+
+	if(!t || !e){
+		return NULL;
+	}
+
+	return search_nodeAB_rec(ROOT(t),e,t->cmp_element_function);
+}
+
+NodeBT *search_nodeAB_rec(NodeBT *pn,const void *e,cmp_element_function_type fcmp){
+
+	int cmp=0;
+
+	if(!pn || !e){
+		return NULL;
+	}
+
+	cmp= fcmp(e,INFO(pn));
+
+	if(cmp==0){
+		return pn;
+	}
+	else if(cmp>0){
+		return search_nodeAB_rec(RIGHT(pn),e,fcmp);
+	}else{
+		return search_nodeAB_rec(LEFT(pn),e,fcmp);
+	} 	
 }
 
 /**************************************************/
