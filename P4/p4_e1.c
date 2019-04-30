@@ -39,7 +39,9 @@ int main(int argc, char* argv[1]) {
 
 	
 	printf("Enter an integer: ");
-	(*num)=2;
+
+	scanf("%d", num);
+	
 	printf("Integer entered: %d\n", *num);
 
 	if(tree_find(t, num)){
