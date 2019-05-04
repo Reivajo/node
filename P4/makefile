@@ -7,7 +7,7 @@ OBJECTSP4_E1 = p4_e1.o tree.o int.o
 OBJECTSP4_E2 = p4_e2.o tree.o int.o
 OBJECTSP4_E3 = p4_e3.o tree.o list.o int.o node_p4.o
 OBJECTSP4_TNT = p4_test-node-tree.o tree.o node.o
-OBJECTSP4_E4 = p4_e4.o tree.o list.o int.o node.o
+OBJECTSP4_E4 = p4_e4.o tree.o string.o
 ########################################################
 
 all: $(EJS) clear
@@ -53,6 +53,9 @@ tree.o: tree.c tree.h
 
 node.o: node.c node.h
 	$(CC) $(CFLAGS) -c node.c
+
+string.o: string.c string.h
+	$(CC) $(CFLAGS) -c string.c
 
 clear:
 	rm -rf *.o 
