@@ -6,11 +6,11 @@
 #include "types.h"
 #include "string.h"
 
-
+#define MAX 300
 
 char* read_string_from_file(FILE* f) {
 	char* str;
-	char s[300];
+	char s[MAX];
 	
 	fscanf(f, "%s\n", s);
 	str = (char*)malloc((strlen(s)+1)*sizeof(char));
@@ -60,6 +60,7 @@ int main(int argc, char const *argv[]){
 	fprintf(stdout, "\n");
 
 	fprintf(stdout, "Enter a string to find in the tree (using the same format):\n");
+	str = (char*)calloc(MAX, sizeof(char));
 	scanf("%s",str);
 
 	if (tree_find(t, str) == TRUE){
@@ -67,7 +68,6 @@ int main(int argc, char const *argv[]){
 	}else{
 		fprintf(stdout, "The string was not found.\n");
 	}
-
 	free(str);
 	tree_free(t);
 

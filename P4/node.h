@@ -25,7 +25,7 @@ Node * node_setName(Node * n, const char* name);
 /* Compares two nodes by the id and then the name.
  * Returns 0 when both nodes have the same id, a smaller number than
  * 0 when n1 <n2 or one greater than 0 otherwise. */
-int node_cmp (const Node * n1, const Node * n2);
+int node_cmp (const void * n1, const void * n2);
 /* Reserves memory for a node where it copies the data from the node src.
  * Returns the address of the copied node if everything went well, or NULL
 otherwise */

@@ -83,7 +83,7 @@ void balance(Node** data, Tree *t, int first, int last) {
 Tree* loadBalancedTreeFromData(Node** data, int n) {
 	Tree* t;
 	
-	t = tree_ini(destroy_node_function, copy_node_function, print_node_function, cmp_node_function);
+	t = tree_ini(node_destroy, node_copy, node_print, node_cmp);
 	
     balance(data, t, 0, n - 1);
     

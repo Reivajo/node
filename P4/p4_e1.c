@@ -23,7 +23,7 @@ int main(int argc, char* argv[1]) {
 	if(!f)
 		return -1;
 
-	num= (int *)malloc(sizeof(int));
+	num = (int *)malloc(sizeof(int));
 
 	if(num==NULL){
 		tree_free(t);
@@ -49,7 +49,9 @@ int main(int argc, char* argv[1]) {
 		return 0;
 	}else{
 
-	printf("The number %d cannot be found.\n", *num);
-	return -1;
+		printf("The number %d cannot be found.\n", *num);
+		return -1;
 	}
+	free(num);
+	tree_free(t);
 }

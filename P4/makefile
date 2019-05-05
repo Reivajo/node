@@ -1,11 +1,12 @@
 ########################################################
 CC=gcc
-CFLAGS= -g -Wall -pedantic -ansi
+COFLAGS = -g -Wall -pedantic
+CFLAGS= $(COFLAGS) -ansi
 EJS = p4_e1 p4_e2 p4_e3 p4_test-node-tree p4_e4
 ########################################################
 OBJECTSP4_E1 = p4_e1.o tree.o int.o 
 OBJECTSP4_E2 = p4_e2.o tree.o int.o
-OBJECTSP4_E3 = p4_e3.o tree.o list.o int.o node_p4.o
+OBJECTSP4_E3 = p4_e3.o tree.o node.o
 OBJECTSP4_TNT = p4_test-node-tree.o tree.o node.o
 OBJECTSP4_E4 = p4_e4.o tree.o string.o
 ########################################################
@@ -13,19 +14,19 @@ OBJECTSP4_E4 = p4_e4.o tree.o string.o
 all: $(EJS) clear
 
 p4_e1: $(OBJECTSP4_E1)
-	$(CC) $(CFLAGS) -o p4_e1 $(OBJECTSP4_E1)
+	$(CC) $(COFLAGS) -o p4_e1 $(OBJECTSP4_E1)
 
 p4_e2: $(OBJECTSP4_E2)
-	$(CC) $(CFLAGS) -o p4_e2 $(OBJECTSP4_E2)
+	$(CC) $(COFLAGS) -o p4_e2 $(OBJECTSP4_E2)
 
 p4_e3: $(OBJECTSP4_E3)
-	$(CC) $(CFLAGS) -o p4_e3 $(OBJECTSP4_E3)
+	$(CC) $(COFLAGS) -o p4_e3 $(OBJECTSP4_E3)
 
 p4_test-node-tree: $(OBJECTSP4_TNT)
-	$(CC) $(CFLAGS) -o p4_test-node-tree $(OBJECTSP4_TNT)
+	$(CC) $(COFLAGS) -o p4_test-node-tree $(OBJECTSP4_TNT)
 
 p4_e4: $(OBJECTSP4_E4)
-	$(CC) $(CFLAGS) -o p4_e4 $(OBJECTSP4_E4)
+	$(CC) $(COFLAGS) -o p4_e4 $(OBJECTSP4_E4)
 
 p4_e1.o: p4_e1.c tree.h int.h
 	$(CC) $(CFLAGS) -c p4_e1.c

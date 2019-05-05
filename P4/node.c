@@ -5,12 +5,11 @@
 #include <errno.h>
 
 #include "node.h"
-#include "types.h"
 
 #define NAME_L 64
 
 struct _Node {
-	char name[100];
+	char* name;
 	int id;
 
 };
@@ -23,15 +22,18 @@ Node *node_ini(){
 	n=(Node*)calloc(1,sizeof(Node));
 	if(!n)
 		fprintf (stderr, "%s\n", strerror(errno));
-
+	n->name = NULL;
 	return n;
 }
 
 /* Free the dynamic memory reserved for a node */
-void node_destroy(Node *n){
+void node_destroy(void *node){
+	Node* n = (Node *) node;
 	if(!n){
 		fprintf (stderr, "%s\n", strerror(errno));
 	}
+	if(n->name)
+		free(n->name);
 	free(n);
 }
 
@@ -86,12 +88,13 @@ Node * node_setId(Node *n, const int id){
 
 /* Modifies the name of a given node, returns NULL in case of error */
 Node * node_setName(Node *n, const char *name){
-	
 	if(!n){
 		fprintf (stderr, "%s\n", strerror(errno));
 	}
 
-	strcpy(n->name, name);
+	if(n->name)
+		free(n->name);
+	n->name = strdup(name);
 	return n;
 }
 
@@ -111,7 +114,9 @@ Node * node_setConnect(Node *n, const int cn){
 /* Compares two nodes by the id and then the name.
 * Returns 0 when both nodes have the same id, a smaller number than
 * 0 when n1 <n2 or one greater than 0 otherwise. */
-int node_cmp(const Node *n1, const Node *n2){
+int node_cmp(const void *node1, const void *node2){
+	Node* n1 = (Node*) node1;
+	Node* n2 = (Node*) node2;
 	
 	int ret;
 	ret=strcmp(n1->name, n2->name);
@@ -128,15 +133,16 @@ int node_cmp(const Node *n1, const Node *n2){
 /* Reserves memory for a node where it copies the data from the node src.
 * Returns the address of the copied node if everything went well, or NULL
 otherwise */
-Node * node_copy(const Node *src){
+void * node_copy(const void *node){
 	
+	Node* src = (Node*) node;
 	Node *n;
 	n=node_ini();
 	if(!n){
 		fprintf (stderr, "%s\n", strerror(errno));
 	}
 	n->id=src->id;
-	strcpy(n->name, src->name);
+	n->name = strdup(src->name);
 	/*n->nConnect=src->nConnect;*/
         
 	return n;
@@ -146,8 +152,9 @@ Node * node_copy(const Node *src){
 * Returns the number of characters that have been written successfully.
 * Checks if there have been errors in the Output flow, in that case prints
 * an error message in stderror*/
-int node_print(FILE *pf, const Node *n){
-    	
+int node_print(FILE *pf, const void *node){
+	Node* n = (Node*) node;
+    
 	int chars=0;
   	if(!pf){
 		fprintf (stderr, "%s\n", strerror(errno));
@@ -156,22 +163,4 @@ int node_print(FILE *pf, const Node *n){
     	
     	return chars;
 }
-
-void destroy_node_function(void* e){
-	node_destroy((Node *)e);
-}
-void * copy_node_function(const void* e){
-	return node_copy((Node *)e);
-}
-int    print_node_function(FILE * f, const void* e){
-	return node_print(f, (Node *)e);
-}
-
-int    cmp_node_function(const void* e1, const void* e2){
-	if (e1 != NULL && e2 != NULL){
-		return node_cmp((Node *)e1, (Node *)e2);
-	}
-	return -1;
-}
-
 
