@@ -131,7 +131,7 @@ Status tree_preOrder(FILE *f, const Tree *pa){
 		return ERROR;
 	}
 
-	return tree_preOrderRec(f, pa->root, pa->print_element_function);
+	return tree_preOrderRec(f, ROOT(pa), pa->print_element_function);
 }
 
 Status tree_preOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
@@ -150,7 +150,7 @@ Status tree_inOrder(FILE *f, const Tree *pa){
 		return ERROR;
 	}
 
-	return tree_inOrderRec(f, pa->root, pa->print_element_function);
+	return tree_inOrderRec(f, ROOT(pa), pa->print_element_function);
 }
 
 Status tree_inOrderRec(FILE* f, NodeBT* pn, print_element_function_type pfun){
