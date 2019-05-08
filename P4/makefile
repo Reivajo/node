@@ -66,11 +66,11 @@ clean:
 
 run:
 	@echo ">>>>>>Running p4_e1"
-	./p4_e1 numeros.txt
+	./p4_e1 numbers.txt
 	@echo ">>>>>>Running p4_e2"
-	./p4_e2 numeros.txt
+	./p4_e2 numbers.txt
 	@echo ">>>>>>Running p4_test-node-tree"
-	./p4_test-node-tree nodos.txt
+	./p4_test-node-tree nodes.txt
 	@echo ">>>>>>Running p4_e3 non balanced"
 	./p4_e3 dict10.dat N
 	@echo ">>>>>>Running p4_e3 balanced"
