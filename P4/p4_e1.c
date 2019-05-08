@@ -42,6 +42,8 @@ int main(int argc, char* argv[1]) {
 	}
 	fclose(f);
 
+	num=NULL;
+	
 	printf("Number of nodes: %d\nTree's depth: %d\n", tree_numNodes(t), tree_depth(t));
 
 	
