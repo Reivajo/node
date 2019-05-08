@@ -4,7 +4,7 @@
  */
 #ifndef TYPES_H
 #define TYPES_H
-#define DEBUG() printf("%d	%s	%s	\n", __LINE__, __FUNCTION__, __FILE__)
+#define DEBUG() printf("%d	%s	\n", __LINE__, __FILE__)
 #define MAXQUEUE 1024
 
 

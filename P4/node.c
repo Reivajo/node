@@ -94,7 +94,9 @@ Node * node_setName(Node *n, const char *name){
 
 	if(n->name)
 		free(n->name);
-	n->name = strdup(name);
+
+	n->name = calloc(strlen(name)+1, sizeof(char));
+	strcpy(n->name, name);
 	return n;
 }
 
@@ -142,7 +144,8 @@ void * node_copy(const void *node){
 		fprintf (stderr, "%s\n", strerror(errno));
 	}
 	n->id=src->id;
-	n->name = strdup(src->name);
+	n->name = calloc(strlen(src->name)+1, sizeof(char));
+	strcpy(n->name, src->name);
 	/*n->nConnect=src->nConnect;*/
         
 	return n;

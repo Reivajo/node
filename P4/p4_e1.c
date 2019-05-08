@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "errno.h"
+#include <string.h>
 
 #include "tree.h"
 #include "int.h"
@@ -14,14 +15,20 @@ int main(int argc, char* argv[1]) {
 		printf("Not enough arguments.");
 		return -1;
 	}
+
 	t = tree_ini(int_destroy, int_copy, int_print, int_cmp);
 
-	if(!t) return -1;
+	if(!t) {
+		tree_free(t);
+		return -1;
+	}
 
 	f = fopen(argv[1], "r");
 
-	if(!f)
+	if(!f) {
+		tree_free(t);
 		return -1;
+	}
 
 	num = (int *)malloc(sizeof(int));
 
@@ -46,12 +53,10 @@ int main(int argc, char* argv[1]) {
 
 	if(tree_find(t, num)){
 		printf("The number %d is inside the tree.\n", *num);
-		return 0;
-	}else{
-
+	} else {
 		printf("The number %d cannot be found.\n", *num);
-		return -1;
 	}
 	free(num);
 	tree_free(t);
+	return 0;
 }

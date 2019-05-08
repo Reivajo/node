@@ -18,8 +18,8 @@ void* int_ini(){
 
 void int_destroy (void* num){
     
-    if (num==NULL){
-        free((int*)num);
+    if (num != NULL){
+        free(num);
     }
 }
 

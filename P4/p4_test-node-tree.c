@@ -21,6 +21,11 @@ int main(int argc, char* argv[1]) {
 
 	f = fopen(argv[1], "r");
 
+	if (!f) {
+		printf("File not found.\n");
+		return -1;
+	}
+
 	t = tree_ini(node_destroy, node_copy, node_print, node_cmp);
 	
 	if (!t){
@@ -32,10 +37,12 @@ int main(int argc, char* argv[1]) {
 		n = node_ini();
 		if (node_setId(n, id) == NULL){
 			node_destroy(n);
+			tree_free(t);
 			return 1;
 		}
 		if (node_setName(n, name) == NULL){
 			node_destroy(n);
+			tree_free(t);
 			return 1;
 		}
 		tree_insert(t, n);
@@ -54,6 +61,7 @@ int main(int argc, char* argv[1]) {
 	tree_postOrder(stdout, t);
 	printf("\n");
 	
+	tree_free(t);
 	return 0;
 }
 

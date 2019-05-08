@@ -80,11 +80,11 @@ run:
 
 runv:
 	@echo ">>>>>>Running p4_e1 with valgrind"
-	valgrind --leak-check=full ./p4_e1 numeros.txt
+	valgrind --leak-check=full ./p4_e1 numbers.txt
 	@echo ">>>>>>Running p4_e2 with valgrind"
-	valgrind --leak-check=full ./p4_e2 numeros.txt
+	valgrind --leak-check=full ./p4_e2 numbers.txt
 	@echo ">>>>>>Running p4_test-node-tree with valgrind"
-	valgrind --leak-check=full ./p4_test-node-tree nodos.txt
+	valgrind --leak-check=full ./p4_test-node-tree nodes.txt
 	@echo ">>>>>>Running p4_e3 non balanced with valgrind"
 	valgrind --leak-check=full ./p4_e3 dict10.dat N
 	@echo ">>>>>>Running p4_e3 balanced with valgrind"

@@ -6,19 +6,19 @@
 #define ROOT(t) ((t)->root)
 
 typedef struct _NodeBT {
-void* info;
-struct _NodeBT* left;
-struct _NodeBT* right;
+	void* info;
+	struct _NodeBT* left;
+	struct _NodeBT* right;
 
 } NodeBT;
 
 
 struct _Tree {
- NodeBT *root;
- destroy_element_function_type destroy_element_function;
- copy_element_function_type copy_element_function;
- print_element_function_type print_element_function;
- cmp_element_function_type cmp_element_function;
+	NodeBT *root;
+	destroy_element_function_type destroy_element_function;
+	copy_element_function_type copy_element_function;
+	print_element_function_type print_element_function;
+	cmp_element_function_type cmp_element_function;
 };
 
 
@@ -41,10 +41,10 @@ NodeBT *search_nodeAB_rec(NodeBT *pn,const void *e,cmp_element_function_type fcm
 /*Initialices a tree*/
 Tree* tree_ini(destroy_element_function_type f1,copy_element_function_type f2,print_element_function_type f3, cmp_element_function_type f4) {
 	Tree *b = NULL;
-		b = (Tree *)malloc(sizeof(Tree));
-		if (b == NULL) {
+	b = (Tree *)malloc(sizeof(Tree));
+	if (b == NULL) {
 		return NULL;
-		}
+	}
 
 	ROOT(b) = NULL;
 	b->destroy_element_function=f1;
@@ -52,7 +52,7 @@ Tree* tree_ini(destroy_element_function_type f1,copy_element_function_type f2,pr
 	b->print_element_function=f3;
 	b->cmp_element_function=f4;
 
-return b;
+	return b;
 }
 
 /*Returns 1 if the tree is Empty, 0 otherwise*/
@@ -65,7 +65,7 @@ Bool tree_isEmpty( const Tree *pa){
 		return TRUE;
 	}
 
-return FALSE;
+	return FALSE;
 }
 
 
@@ -94,33 +94,33 @@ Status tree_insert(Tree *pa, const void *po){
 	if (pa == NULL || po == NULL) {
 		return ERROR;
 	}
-return bst_recInsert(&ROOT(pa), po, pa->copy_element_function, pa->cmp_element_function );
+	return bst_recInsert(&ROOT(pa), po, pa->copy_element_function, pa->cmp_element_function );
 }
 
 
-Status bst_recInsert(NodeBT **ppn, const void *e,copy_element_function_type fcpy, cmp_element_function_type fcmp) {
+Status bst_recInsert(NodeBT **ppn, const void *e, copy_element_function_type fcpy, cmp_element_function_type fcmp) {
 	
 	int cmp;
 	void *info=NULL;
-		if (*ppn == NULL) {
-			*ppn = NodeAB_ini();
+	if (*ppn == NULL) {
+		*ppn = NodeAB_ini();
 
 		if (*ppn == NULL) return ERROR;
 
 		info= fcpy(e);
 		INFO(*ppn) = info;
 
-	return OK;
+		return OK;
 	}
-		cmp = fcmp(e,INFO((*ppn)));
-		if(cmp==0){
-			return ERROR;
-		}
-		if (cmp < 0) {
-			return bst_recInsert(&(LEFT(*ppn)), e,fcpy,fcmp);
-		} else if (cmp > 0) {
-			return bst_recInsert(&(RIGHT(*ppn)), e,fcpy,fcmp);
-		} 
+	cmp = fcmp(e,INFO((*ppn)));
+	if(cmp==0){
+		return ERROR;
+	}
+	if (cmp < 0) {
+		return bst_recInsert(&(LEFT(*ppn)), e,fcpy,fcmp);
+	} else if (cmp > 0) {
+		return bst_recInsert(&(RIGHT(*ppn)), e,fcpy,fcmp);
+	} 
 	return ERROR;
 	
 }

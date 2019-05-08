@@ -20,8 +20,10 @@ int main(int argc, char* argv[1]) {
 
 	f = fopen(argv[1], "r");
 
-	if(!f)
+	if(!f) {
+		tree_free(t);
 		return -1;
+	}
 
 	num= (int *)malloc(sizeof(int));
 
@@ -53,10 +55,12 @@ int main(int argc, char* argv[1]) {
 
 	if(tree_find(t, num)){
 		printf("The number %d is inside the tree.\n", *num);
-		return 0;
-	}else{
-
-	printf("The number %d cannot be found.\n", *num);
-	return -1;
+	} else {
+		printf("The number %d cannot be found.\n", *num);
 	}
+	
+	free(num);
+	tree_free(t);
+	
+	return 0;
 }
