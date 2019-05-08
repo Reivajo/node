@@ -118,21 +118,15 @@ Status list_insertInOrder (List *list, const void *pelem){
 	if(nl==NULL){
 		return ERROR;
 	}
-	DEBUG();
 
 	nl->info=list->copy_element_function(pelem);
-	DEBUG();
 
 	if(list_isEmpty(list)){
-	DEBUG();
 		
 		pn->next=pn;
-	DEBUG();
 		list->last=pn;
-	DEBUG();
 		return OK;
 	}
-	DEBUG();
 
 	pn=list->last->next;
 
